@@ -127,5 +127,10 @@ namespace Teste1
             }
 
         }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+        }
     }
 }
