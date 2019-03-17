@@ -20,6 +20,7 @@ namespace Teste1
             InitializeComponent();
             cont = 0;
             Pontos = new Coordenadas();
+            g = pictureBox1.CreateGraphics();
 
         }
         Coordenadas Pontos;
@@ -42,18 +43,7 @@ namespace Teste1
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         { 
 
-            if (cont == 0)
-            {
-                Pontos.PontoInicial = e.Location;
-                cont++;
-
-            }
-            else
-            {
-                Pontos.PontoFinal = e.Location;
-                g.DrawLine(Pens.Black, Pontos.PontoInicial, Pontos.PontoFinal);
-                cont = 0;
-            }
+            
         }
 
 
@@ -113,12 +103,29 @@ namespace Teste1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            g = this.CreateGraphics();
+           
         }
 
         private void Form1_MouseMove_1(object sender, MouseEventArgs e)
         {
            
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (cont == 0)
+            {
+                Pontos.PontoInicial = e.Location;
+                cont++;
+
+            }
+            else
+            {
+                Pontos.PontoFinal = e.Location;
+                g.DrawLine(Pens.Black, Pontos.PontoInicial, Pontos.PontoFinal);
+                cont = 0;
+            }
+
         }
     }
 }

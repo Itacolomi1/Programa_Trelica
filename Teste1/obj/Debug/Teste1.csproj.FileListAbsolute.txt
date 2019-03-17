@@ -8,3 +8,13 @@ C:\Users\ITALO\source\repos\Teste1\Teste1\obj\Debug\Teste1.csproj.GenerateResour
 C:\Users\ITALO\source\repos\Teste1\Teste1\obj\Debug\Teste1.csproj.CoreCompileInputs.cache
 C:\Users\ITALO\source\repos\Teste1\Teste1\obj\Debug\Teste1.exe
 C:\Users\ITALO\source\repos\Teste1\Teste1\obj\Debug\Teste1.pdb
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\bin\Debug\Teste1.exe.config
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\bin\Debug\Teste1.exe
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\bin\Debug\Teste1.pdb
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.csprojAssemblyReference.cache
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.Form1.resources
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.Properties.Resources.resources
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.csproj.GenerateResource.cache
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.csproj.CoreCompileInputs.cache
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.exe
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.pdb
