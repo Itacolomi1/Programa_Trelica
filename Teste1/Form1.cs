@@ -117,6 +117,7 @@ namespace Teste1
             {
                 Pontos.PontoInicial = e.Location;
                 cont++;
+                Console.WriteLine('h');
 
             }
             else
