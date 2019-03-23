@@ -49,29 +49,7 @@ namespace Teste1
 
 
 
-        public void DrawLShapeLine(System.Drawing.Graphics g, Point Inicio, Point Fim)
-        {
-            Pen myPen = new Pen(Color.Black);
-            myPen.Width = 2;
-            // Create array of points that define lines to draw.
-            //int marginleft = intMarginLeft;
-            //int marginTop = intMarginTop;
-            //int width = intWidth;
-            //int height = intHeight;
-            //int arrowSize = 3;
-            //Point[] points =
-            // {
-            //    new Point(marginleft, marginTop),
-            //    new Point(marginleft, height + marginTop),
-            //    new Point(marginleft + width, marginTop + height),
-            //    // Arrow
-            //    //new Point(marginleft + width - arrowSize, marginTop + height - arrowSize),
-            //    //new Point(marginleft + width - arrowSize, marginTop + height + arrowSize),
-            //    //new Point(marginleft + width, marginTop + height)
-            // };
-
-            g.DrawLine(myPen, Inicio, Fim);
-        }
+       
 
         bool verifica;
         private void Form1_MouseUp(object sender, MouseEventArgs e)
@@ -132,6 +110,18 @@ namespace Teste1
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             pictureBox1.Refresh();
+        }
+
+        private void btn_Valida_Click(object sender, EventArgs e)
+        {
+            if(Trelica.ValidaTrelica(4,5,3)== true)
+            {
+                MessageBox.Show("Treliça Válida");
+            }
+            else
+            {
+                MessageBox.Show("Treliça Inválida");
+            }
         }
     }
 }

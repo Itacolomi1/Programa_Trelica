@@ -30,6 +30,7 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLimpar = new System.Windows.Forms.Button();
+            this.btn_Valida = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             // 
             // btnLimpar
             // 
-            this.btnLimpar.Location = new System.Drawing.Point(187, 202);
+            this.btnLimpar.Location = new System.Drawing.Point(215, 214);
             this.btnLimpar.Name = "btnLimpar";
             this.btnLimpar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpar.TabIndex = 1;
@@ -53,11 +54,22 @@
             this.btnLimpar.UseVisualStyleBackColor = true;
             this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
+            // btn_Valida
+            // 
+            this.btn_Valida.Location = new System.Drawing.Point(63, 92);
+            this.btn_Valida.Name = "btn_Valida";
+            this.btn_Valida.Size = new System.Drawing.Size(75, 23);
+            this.btn_Valida.TabIndex = 2;
+            this.btn_Valida.Text = "Validar";
+            this.btn_Valida.UseVisualStyleBackColor = true;
+            this.btn_Valida.Click += new System.EventHandler(this.btn_Valida_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 279);
+            this.Controls.Add(this.btn_Valida);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
@@ -75,6 +87,7 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnLimpar;
+        private System.Windows.Forms.Button btn_Valida;
     }
 }
 
