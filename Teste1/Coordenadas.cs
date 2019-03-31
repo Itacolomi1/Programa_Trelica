@@ -9,8 +9,8 @@ namespace Teste1
 {
     public class Coordenadas
     {
-        private Point pontoI;
-        private Point pontoF;
+        private PointF pontoI;
+        private PointF pontoF;
 
         public Coordenadas()
         {
@@ -18,7 +18,7 @@ namespace Teste1
         }
 
 
-        public Point PontoInicial
+        public PointF PontoInicial
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Teste1
 
 
 
-        public Point PontoFinal
+        public PointF PontoFinal
         {
             get
             {

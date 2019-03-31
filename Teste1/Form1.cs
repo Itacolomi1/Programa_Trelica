@@ -27,7 +27,67 @@ namespace Teste1
         Coordenadas Pontos;
         int cont;
 
+        #region Desenha o Grid
 
+        private PointF Corner = new Point(-5, -5);
+        private Single gridStep = 20;
+        private Single ScaleWidth = 200;
+
+
+        private int RoundToIncrement(double theValue, int roundIncrement)
+        {
+            return Convert.ToInt32((Convert.ToDouble(theValue) + (0.5 * roundIncrement)) / roundIncrement) * roundIncrement;
+        }
+
+
+        private void DrawGrid(Graphics g)
+        {
+            Single x1 = RoundToIncrement(Corner.X - gridStep, Convert.ToInt32(gridStep));
+            Single y1 = RoundToIncrement(Corner.Y - gridStep, Convert.ToInt32(gridStep));
+
+            Single sw = Convert.ToSingle(ScaleWidth + (2 * gridStep));
+            double pxlSize = ScaleWidth / pictureBox1.ClientSize.Width;
+
+            Graphics graphics = g;
+
+            using (Pen pg = new Pen(Color.DarkGray, Convert.ToSingle(pxlSize / 6)))
+            {
+                Font f = new Font("arial", Convert.ToSingle(11 * pxlSize));
+                SolidBrush br = new SolidBrush(Color.DimGray);
+
+                for (Single x = x1; x <= Convert.ToSingle(x1 + sw); x = x + gridStep)
+                {
+                    graphics.DrawLine(pg, x, y1, x, Convert.ToSingle(y1 + sw));
+                    graphics.DrawString(x.ToString(), f, br, x, Corner.Y);
+                }
+
+                for (Single y = y1; y <= Convert.ToSingle(y1 + sw); y = y + gridStep)
+                {
+                    graphics.DrawLine(pg, x1, y, Convert.ToSingle(x1 + sw), y);
+                    graphics.DrawString(y.ToString(), f, br, Corner.X, y);
+                }
+            }
+        }
+
+        #endregion
+
+        #region EncontroGrid
+        private Single SnapStep = 5;
+
+         private PointF GetScalePtFromClientPt(PointF pt)//Converte para a escala da Picture Box
+        {
+            double sf = pictureBox1.ClientSize.Width / ScaleWidth;
+            return new PointF(Convert.ToSingle(Corner.X + (pt.X / sf)), Convert.ToSingle(Corner.Y + (pt.Y / sf)));
+        }
+
+        private PointF SnapToGrid(PointF thispt)//Deixa os números inteiros.
+        {
+            Single x = Convert.ToInt32(thispt.X / SnapStep) * SnapStep;
+            Single y = Convert.ToInt32(thispt.Y / SnapStep) * SnapStep;
+            return new PointF(x, y);
+        }
+
+        #endregion
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -82,6 +142,7 @@ namespace Teste1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            DoubleBuffered = true;
             string[] dados = File.ReadAllLines("dados.txt");
             double[,] matriz = new double[8, 8];
             for (int i = 0; i < 8; i++)
@@ -166,27 +227,48 @@ namespace Teste1
 
         }
 
+        private PointF MouseDownPt, MouseMovePt;
+        private int MouseStaus = 0;
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (cont == 0)
-            {
-                Pontos.PontoInicial = e.Location;
-                cont++;
-                Console.WriteLine('h');
 
-            }
-            else
+
+            if (e.Button == MouseButtons.Left)
             {
-                Pontos.PontoFinal = e.Location;
-                g.DrawLine(Pens.Black, Pontos.PontoInicial, Pontos.PontoFinal);
-                cont = 0;
+                PointF pt = GetScalePtFromClientPt(e.Location);
+                MouseDownPt = SnapToGrid(pt);
+                MouseMovePt = MouseDownPt;
+                MouseStaus = 1;
             }
+
+
+
+
+            
+            //if (cont == 0)
+            //{
+            //    Pontos.PontoInicial = GetScalePtFromClientPt(e.Location); 
+                 
+            //    cont++;
+                
+
+            //}
+            //else
+            //{
+            //    Pontos.PontoFinal = GetScalePtFromClientPt(e.Location); 
+              
+            //    g.DrawLine(Pens.Black, SnapToGrid(Pontos.PontoInicial), SnapToGrid(Pontos.PontoFinal));
+            //    cont = 0;
+            //}
 
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
         {
+
+            shapes.Clear();
             pictureBox1.Refresh();
+                
         }
 
         private void btn_Valida_Click(object sender, EventArgs e)
@@ -199,6 +281,79 @@ namespace Teste1
             {
                 MessageBox.Show("Treliça Inválida");
             }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                switch (MouseStaus)
+                {
+                    case 1:
+                        PointF pt = GetScalePtFromClientPt(e.Location);
+                        MouseMovePt = SnapToGrid(pt);
+                        pictureBox1.Invalidate();
+                        break;
+                }
+            }
+        }
+        List<Shape> shapes = new List<Shape>();
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            switch (MouseStaus)
+            {
+                case 1:
+                    PointF pt = GetScalePtFromClientPt(e.Location);
+                    MouseMovePt = SnapToGrid(pt);
+
+                    Shape shp = new Shape();
+                    shp.pt1 = MouseDownPt;
+                    shp.pt2 = MouseMovePt;
+                    shp.color = Color.Red;
+                    shapes.Add(shp);
+                    break;
+            }
+
+            MouseStaus = 0;
+             pictureBox1.Invalidate();
+        }
+
+        private void pictureBox1_Resize(object sender, EventArgs e)
+        {
+            pictureBox1.Invalidate(); 
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+
+            Graphics Graficos = e.Graphics;
+            Graficos.ResetTransform();
+
+            Graficos.Clear(Color.White);
+            Graficos.SmoothingMode= System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+            Graficos.ScaleTransform(sf, sf);
+            Graficos.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+            DrawGrid(e.Graphics);
+
+            foreach (Shape shp in shapes)
+            {
+                shp.Draw(e.Graphics);
+            }
+
+            switch (MouseStaus)
+            {
+                case 1:
+                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), MouseDownPt, MouseMovePt);
+                    break;
+            }
+
+
+
+
         }
     }
 }

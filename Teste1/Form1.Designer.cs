@@ -37,16 +37,20 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(351, 32);
+            this.pictureBox1.Location = new System.Drawing.Point(297, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(271, 205);
+            this.pictureBox1.Size = new System.Drawing.Size(357, 324);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.pictureBox1.Resize += new System.EventHandler(this.pictureBox1_Resize);
             // 
             // btnLimpar
             // 
-            this.btnLimpar.Location = new System.Drawing.Point(215, 214);
+            this.btnLimpar.Location = new System.Drawing.Point(24, 302);
             this.btnLimpar.Name = "btnLimpar";
             this.btnLimpar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpar.TabIndex = 1;
@@ -56,7 +60,7 @@
             // 
             // btn_Valida
             // 
-            this.btn_Valida.Location = new System.Drawing.Point(63, 92);
+            this.btn_Valida.Location = new System.Drawing.Point(24, 273);
             this.btn_Valida.Name = "btn_Valida";
             this.btn_Valida.Size = new System.Drawing.Size(75, 23);
             this.btn_Valida.TabIndex = 2;
@@ -68,7 +72,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(666, 279);
+            this.ClientSize = new System.Drawing.Size(666, 348);
             this.Controls.Add(this.btn_Valida);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.pictureBox1);
