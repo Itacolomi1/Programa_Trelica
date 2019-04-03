@@ -27,6 +27,22 @@ namespace Teste1
         Coordenadas Pontos;
         int cont;
 
+
+        public static bool ValidaTrelica(int NumNos, int NumBarras, int NumRapoios)
+        {
+            if ((NumNos * 2) == (NumBarras + NumRapoios) | (NumNos * 2) > (NumBarras + NumRapoios))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            
+        }
+
+
         #region Desenha o Grid
 
         private PointF Corner = new Point(-5, -5);
@@ -273,14 +289,42 @@ namespace Teste1
 
         private void btn_Valida_Click(object sender, EventArgs e)
         {
-            if (Trelica.ValidaTrelica(4, 5, 3) == true)
+            if (ValidaTrelica(4, 5, 3) == true)
             {
                 MessageBox.Show("Treliça Válida");
+
+
+                Trelica Tre = new Trelica();
+
+                Tre.Barras = shapes.Count();
+
+
+                List<PointF> Nos = new List<PointF>();
+
+                              
+
+                foreach (var item in shapes)
+                {
+                    Nos.Add(item.pt1);
+                    Nos.Add(item.pt2);
+
+                }
+                //Pega os Nós
+                List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
+
+
+
+                MessageBox.Show($"Os nós dessa trelição são : {Nosverdadeiros[0]}, {Nosverdadeiros[1]},{Nosverdadeiros[2]} ");
+
+
+
             }
             else
             {
                 MessageBox.Show("Treliça Inválida");
             }
+
+            
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -309,8 +353,10 @@ namespace Teste1
                     Shape shp = new Shape();
                     shp.pt1 = MouseDownPt;
                     shp.pt2 = MouseMovePt;
-                    shp.color = Color.Red;
+                    shp.color = Color.Black;
                     shapes.Add(shp);
+
+
                     break;
             }
 
@@ -347,7 +393,7 @@ namespace Teste1
             switch (MouseStaus)
             {
                 case 1:
-                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), MouseDownPt, MouseMovePt);
+                    Graficos.DrawLine(new Pen(Color.Black, Graficos.VisibleClipBounds.Width / 100), MouseDownPt, MouseMovePt);
                     break;
             }
 

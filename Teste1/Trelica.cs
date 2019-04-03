@@ -12,30 +12,54 @@ namespace Teste1
         private int NumNos;
         private int NumApoios;
         private int NumBarras;
+
+
+
+        public int Nos
+        {
+            get
+            {
+                return NumNos;
+            }
+            set
+            {
+                NumNos = value;
+            }
+
+
+        }
+
+        public int Barras
+        {
+            get
+            {
+                return NumBarras;
+            }
+            set
+            {
+                NumBarras = value;
+            }
+
+
+        }
+
+
         
+        //public static List<double> Calcula_Re_Apoio(List<Forças> Forcas)
+        //{
+        //    double RA, RB;
+
+        //    foreach (var item in Forcas)
+        //    {
 
 
-        public double Forca
-        {
-            get; set;
+        //    }
 
 
-        }
-
-        public static bool ValidaTrelica(int NumNos,int NumBarras, int NumRapoios)
-        {
-            if((NumNos*2)==(NumBarras+NumRapoios) | (NumNos * 2) > (NumBarras + NumRapoios))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
 
 
-        }
+        //}
+
 
 
     }

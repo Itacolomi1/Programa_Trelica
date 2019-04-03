@@ -12,7 +12,7 @@ namespace Teste1
 
         public PointF pt1;
         public PointF pt2;
-        public Color color = Color.Red;
+        public Color color = Color.Black;
 
         public void Draw(Graphics g)
         {

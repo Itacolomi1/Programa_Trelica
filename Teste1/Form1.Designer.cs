@@ -31,7 +31,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLimpar = new System.Windows.Forms.Button();
             this.btn_Valida = new System.Windows.Forms.Button();
+            this.Teste = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Teste)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -68,11 +70,20 @@
             this.btn_Valida.UseVisualStyleBackColor = true;
             this.btn_Valida.Click += new System.EventHandler(this.btn_Valida_Click);
             // 
+            // Teste
+            // 
+            this.Teste.Location = new System.Drawing.Point(36, 35);
+            this.Teste.Name = "Teste";
+            this.Teste.Size = new System.Drawing.Size(218, 164);
+            this.Teste.TabIndex = 3;
+            this.Teste.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 348);
+            this.Controls.Add(this.Teste);
             this.Controls.Add(this.btn_Valida);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.pictureBox1);
@@ -83,6 +94,7 @@
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove_1);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Teste)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -92,6 +104,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnLimpar;
         private System.Windows.Forms.Button btn_Valida;
+        private System.Windows.Forms.PictureBox Teste;
     }
 }
 
