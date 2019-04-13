@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace Teste1
     {
         private string sentido;
         private double valor;
+        private PointF inicio; 
+        
 
 
 
@@ -23,13 +26,19 @@ namespace Teste1
 
             set
             {
-                if (value != "H" || value != "AH")
-                    throw new Exception("O sentido da força tem que ser H-> Horário ou AH-> Anti-Horário");
-                else
+                
+                
                     sentido = value;
 
             }
         }
+
+        public double Valor { get; set; }
+
+        public PointF Inicio
+        { get { return inicio; } set { inicio = value; } }
+
+
 
     }
 }

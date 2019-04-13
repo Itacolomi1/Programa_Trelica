@@ -19,28 +19,17 @@ namespace Teste1
         public Form1()
         {
             InitializeComponent();
-            cont = 0;
+
             Pontos = new Coordenadas();
             g = pictureBox1.CreateGraphics();
 
         }
         Coordenadas Pontos;
-        int cont;
 
 
-        public static bool ValidaTrelica(int NumNos, int NumBarras, int NumRapoios)
-        {
-            if ((NumNos * 2) == (NumBarras + NumRapoios) | (NumNos * 2) > (NumBarras + NumRapoios))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
 
-            
-        }
+        Forças forca = new Forças();
+
 
 
         #region Desenha o Grid
@@ -90,7 +79,7 @@ namespace Teste1
         #region EncontroGrid
         private Single SnapStep = 5;
 
-         private PointF GetScalePtFromClientPt(PointF pt)//Converte para a escala da Picture Box
+        private PointF GetScalePtFromClientPt(PointF pt)//Converte para a escala da Picture Box
         {
             double sf = pictureBox1.ClientSize.Width / ScaleWidth;
             return new PointF(Convert.ToSingle(Corner.X + (pt.X / sf)), Convert.ToSingle(Corner.Y + (pt.Y / sf)));
@@ -117,47 +106,16 @@ namespace Teste1
 
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-
-
-        }
-
-
-
-
-
-
-        bool verifica;
-        private void Form1_MouseUp(object sender, MouseEventArgs e)
-        {
-
-
-
-        }
-
-
-
-        private void groupBox1_CursorChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-
 
         Graphics g = null; // initialize in Form_Load with this.CreateGraphics()
 
 
 
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Tre_forca.Visible = false;
             DoubleBuffered = true;
             string[] dados = File.ReadAllLines("dados.txt");
             double[,] matriz = new double[8, 8];
@@ -235,13 +193,16 @@ namespace Teste1
                 }
             }
 
+
+            cb_sentido.Items.Add("Cima");
+            cb_sentido.Items.Add("Baixo");
+            cb_sentido.Items.Add("Direita");
+            cb_sentido.Items.Add("Esquerda");
+
+
         }
 
 
-        private void Form1_MouseMove_1(object sender, MouseEventArgs e)
-        {
-
-        }
 
         private PointF MouseDownPt, MouseMovePt;
         private int MouseStaus = 0;
@@ -260,19 +221,19 @@ namespace Teste1
 
 
 
-            
+
             //if (cont == 0)
             //{
             //    Pontos.PontoInicial = GetScalePtFromClientPt(e.Location); 
-                 
+
             //    cont++;
-                
+
 
             //}
             //else
             //{
             //    Pontos.PontoFinal = GetScalePtFromClientPt(e.Location); 
-              
+
             //    g.DrawLine(Pens.Black, SnapToGrid(Pontos.PontoInicial), SnapToGrid(Pontos.PontoFinal));
             //    cont = 0;
             //}
@@ -284,37 +245,89 @@ namespace Teste1
 
             shapes.Clear();
             pictureBox1.Refresh();
-                
+            Nosverdade.Clear();
+
+
         }
 
+
+        public static List<double> Angulo(Dictionary<int, Shape> Barras)
+        {
+            Barras.OrderBy(y => y.Key);
+            List<double> Angulos = new List<double>();
+            int x = 0;
+            for (int i = 0; i < Barras.Keys.Count(); i++)
+            {
+                if (i == Barras.Keys.Count() - 1)
+                {
+                    Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
+                 Math.Atan2(Barras[x].pt2.Y - Barras[x].pt1.Y, Barras[x].pt2.X - Barras[x].pt1.X));
+                    break;
+
+                }
+                Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
+                 Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X));
+
+            }
+            //Double Angle = Math.Atan2(y2 - y1, x2 - x1) - Math.Atan2(y4 - y3, x4 - x3);
+
+            return Angulos;
+
+        }
+
+        List<PointF> Nosverdade = new List<PointF>();
+
+
+        #region ValidaTrelica
+
+        public static bool ValidaTrelica(int NumNos, int NumBarras, int NumRapoios)
+        {
+            if ((NumNos * 2) == (NumBarras + NumRapoios) | (NumNos * 2) > (NumBarras + NumRapoios))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
         private void btn_Valida_Click(object sender, EventArgs e)
         {
-            if (ValidaTrelica(4, 5, 3) == true)
+            Trelica Tre = new Trelica();
+
+            Tre.Barras = shapes.Count();
+
+
+
+            //Pegar as barras que possuem os nós 
+            //List<Shape> Barras_Nos = shapes.Where(x => Nosverdade.Contains(x.Value.pt1) && Nosverdade.Contains(x.Value.pt2)).ToList();
+            Tre.Nos = Nosverdade.Count();
+
+
+
+
+            CB_Nos.DataSource = Nosverdade;
+            List<double> AngulosVerdade = Angulo(shapes);
+
+            if (ValidaTrelica(Tre.Nos, Tre.Barras, 2) == true)
             {
                 MessageBox.Show("Treliça Válida");
 
 
-                Trelica Tre = new Trelica();
 
-                Tre.Barras = shapes.Count();
-
-
-                List<PointF> Nos = new List<PointF>();
-
-                              
-
-                foreach (var item in shapes)
-                {
-                    Nos.Add(item.pt1);
-                    Nos.Add(item.pt2);
-
-                }
                 //Pega os Nós
-                List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
+                //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
+
+                //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
 
 
 
-                MessageBox.Show($"Os nós dessa trelição são : {Nosverdadeiros[0]}, {Nosverdadeiros[1]},{Nosverdadeiros[2]} ");
+                foreach (var item in Nosverdade)
+                {
+                    MessageBox.Show($"Nos: {item}");
+                }
 
 
 
@@ -324,8 +337,9 @@ namespace Teste1
                 MessageBox.Show("Treliça Inválida");
             }
 
-            
+
         }
+        #endregion
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -341,7 +355,9 @@ namespace Teste1
                 }
             }
         }
-        List<Shape> shapes = new List<Shape>();
+        //List<Shape> shapes = new List<Shape>();
+        int contador = 0;
+        Dictionary<int, Shape> shapes = new Dictionary<int, Shape>();
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             switch (MouseStaus)
@@ -354,20 +370,73 @@ namespace Teste1
                     shp.pt1 = MouseDownPt;
                     shp.pt2 = MouseMovePt;
                     shp.color = Color.Black;
-                    shapes.Add(shp);
+                    shapes.Add(contador, shp);
+                    contador++;
 
 
                     break;
             }
 
             MouseStaus = 0;
-             pictureBox1.Invalidate();
+            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            pictureBox1.Invalidate(); 
+            pictureBox1.Invalidate();
         }
+        int V_nos = 0;
+        PointF Inicio;
+        private void Conta_Nos(object sender, EventArgs e)
+        {
+            
+            List<PointF> Nos = new List<PointF>();
+            List<PointF> teste = new List<PointF>();
+
+
+            foreach (var item in shapes.Values)
+            {
+                Nos.Add(item.pt1);
+                Nos.Add(item.pt2);
+
+            }
+
+
+            foreach (var item in Nos)
+            {
+                if (!teste.Contains(item))
+                {
+                    teste.Add(item);
+                }
+                else if (!Nosverdade.Contains(item))
+                {
+                    Nosverdade.Add(item);
+                }
+            }
+            if( Nosverdade.Count!=0)
+            {
+                Tre_forca.Visible = true;
+
+                V_nos = 1;
+
+                Inicio = Nos[0];
+
+                CB_Nos.DataSource = Nosverdade;
+
+                
+            }
+            else
+            {
+                MessageBox.Show("Nenhum nó foi identificado");
+            }
+            
+            //flecha.DrawLine(new Pen(Color.Red, flecha.VisibleClipBounds.Width / 100), forca.Inicio, GetScalePtFromClientPt( new PointF(forca.Inicio.X - 15, forca.Inicio.Y - 15)));
+
+
+
+        }
+
+
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -376,7 +445,7 @@ namespace Teste1
             Graficos.ResetTransform();
 
             Graficos.Clear(Color.White);
-            Graficos.SmoothingMode= System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            Graficos.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
             Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
             Graficos.ScaleTransform(sf, sf);
@@ -385,7 +454,7 @@ namespace Teste1
 
             DrawGrid(e.Graphics);
 
-            foreach (Shape shp in shapes)
+            foreach (Shape shp in shapes.Values)
             {
                 shp.Draw(e.Graphics);
             }
@@ -397,7 +466,12 @@ namespace Teste1
                     break;
             }
 
-
+            switch (V_nos)
+            {
+                case 1:
+                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), Inicio,new PointF(Inicio.X,Inicio.Y+10));
+                    break;
+            }
 
 
         }

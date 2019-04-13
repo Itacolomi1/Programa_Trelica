@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Teste1
 {
-    class Shape
+    public class Shape
     {
 
         public PointF pt1;

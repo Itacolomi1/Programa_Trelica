@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace Teste1
 {
-    public class Trelica
+    public class Trelica 
     {
         private double forca;
         private int NumNos;
         private int NumApoios;
         private int NumBarras;
+        
 
+
+        
 
 
         public int Nos
