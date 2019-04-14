@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLimpar = new System.Windows.Forms.Button();
             this.btn_Valida = new System.Windows.Forms.Button();
@@ -40,8 +41,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Tre_forca = new System.Windows.Forms.GroupBox();
             this.btn_addForca = new System.Windows.Forms.Button();
+            this.Erro = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Tre_forca.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Erro)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -165,6 +168,11 @@
             this.btn_addForca.UseVisualStyleBackColor = true;
             this.btn_addForca.Click += new System.EventHandler(this.btn_addForca_Click);
             // 
+            // Erro
+            // 
+            this.Erro.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.Erro.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -181,6 +189,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Tre_forca.ResumeLayout(false);
             this.Tre_forca.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Erro)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -199,6 +208,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox Tre_forca;
         private System.Windows.Forms.Button btn_addForca;
+        private System.Windows.Forms.ErrorProvider Erro;
     }
 }
 

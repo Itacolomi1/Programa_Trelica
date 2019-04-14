@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Teste1
 {
-     public class Forças
+     public class Forca
     {
         private string sentido;
         private double valor;
-        private PointF inicio; 
+        private PointF no_aplicado;
         
-
+        
+        public PointF No_Aplicado { get; set; }
 
 
         public string Sentido
@@ -35,8 +36,7 @@ namespace Teste1
 
         public double Valor { get; set; }
 
-        public PointF Inicio
-        { get { return inicio; } set { inicio = value; } }
+       
 
 
 

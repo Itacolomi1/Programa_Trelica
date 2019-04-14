@@ -28,7 +28,7 @@ namespace Teste1
 
 
 
-        Forças forca = new Forças();
+
 
 
 
@@ -391,7 +391,7 @@ namespace Teste1
         bool valida;
         private void Conta_Nos(object sender, EventArgs e)
         {
-            
+
             List<PointF> Nos = new List<PointF>();
             List<PointF> teste = new List<PointF>();
 
@@ -415,7 +415,7 @@ namespace Teste1
                     Nosverdade.Add(item);
                 }
             }
-            if( Nosverdade.Count!=0)
+            if (Nosverdade.Count != 0)
             {
                 Tre_forca.Visible = true;
 
@@ -425,28 +425,28 @@ namespace Teste1
 
                 CB_Nos.DataSource = Nosverdade;
                 valida = true;
-                
-                
-                
 
 
 
-               
-                    
+
+
+
+
+
 
             }
             else
             {
                 MessageBox.Show("Nenhum nó foi identificado");
             }
-            
+
             //flecha.DrawLine(new Pen(Color.Red, flecha.VisibleClipBounds.Width / 100), forca.Inicio, GetScalePtFromClientPt( new PointF(forca.Inicio.X - 15, forca.Inicio.Y - 15)));
 
 
 
         }
 
-        
+
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -466,29 +466,149 @@ namespace Teste1
             //}
         }
 
+        #region Evento_Adiciona_Pega_Forca
+        List<Forca> Forca_Trelica = new List<Forca>();
         private void btn_addForca_Click(object sender, EventArgs e)
         {
-            PointF Ponto =  (PointF)CB_Nos.SelectedItem;
+            Erro.Clear();
+            if (string.IsNullOrEmpty(txtForca.Text))
+            {
+                Erro.SetError(txtForca, "Digite Algum valor nesta Força");
+                return;
+            }
+            if (cb_sentido.SelectedItem == null)
+            {
+                Erro.SetError(cb_sentido, "Escolha o sentido da Força");
+                return;
+            }
+            if (CB_Nos.SelectedItem == null)
+            {
+                Erro.SetError(cb_sentido, "Escolha o Nó desejado");
+                return;
+            }
 
-            g.ResetTransform();
+            if (cb_sentido.SelectedItem.ToString() == "Baixo")
+            {
+                //Pego o nó selecionado
+                PointF Ponto = (PointF)CB_Nos.SelectedItem;
+                //Pego o valor, sentidp e nó da Força
+                Forca force = new Forca();
+                force.Valor = double.Parse(txtForca.Text);
+                force.Sentido = "Baixo";
+                force.No_Aplicado = Ponto;
 
-            
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                Forca_Trelica.Add(force);//Adiciono na Lista de Forças
 
-            Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-            g.ScaleTransform(sf, sf);
-            g.TranslateTransform(-Corner.X, -Corner.Y);
+                //as próximas 5 linhas transformam as coordenadasda picturebox, na escala correta
+                g.ResetTransform();
 
-            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y - 15));
-            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X-5, Ponto.Y - 5));
-            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X +5, Ponto.Y - 5));
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                g.ScaleTransform(sf, sf);
+                g.TranslateTransform(-Corner.X, -Corner.Y);
+
+                //Desenho a flecha
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y - 15));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
+            }
+
+
+
+            if (cb_sentido.SelectedItem.ToString() == "Cima")
+            {
+                PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                Forca force = new Forca();
+                force.Valor = double.Parse(txtForca.Text);
+                force.Sentido = "Cima";
+                force.No_Aplicado = Ponto;
+
+                Forca_Trelica.Add(force);
+
+                g.ResetTransform();
+
+
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                g.ScaleTransform(sf, sf);
+                g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y + 15));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
+            }
+
+            if (cb_sentido.SelectedItem.ToString() == "Direita")
+            {
+                PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                Forca force = new Forca();
+                force.Valor = double.Parse(txtForca.Text);
+                force.Sentido = "Direita";
+                force.No_Aplicado = Ponto;
+
+                Forca_Trelica.Add(force);
+
+                g.ResetTransform();
+
+
+
+
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                g.ScaleTransform(sf, sf);
+                g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 15, Ponto.Y));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
+            }
+
+            if (cb_sentido.SelectedItem.ToString() == "Esquerda")
+            {
+                PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                Forca force = new Forca();
+                force.Valor = double.Parse(txtForca.Text);
+                force.Sentido = "Esquerda";
+                force.No_Aplicado = Ponto;
+
+                Forca_Trelica.Add(force);
+
+                g.ResetTransform();
+
+
+
+
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                g.ScaleTransform(sf, sf);
+                g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+
+
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 15, Ponto.Y));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
+                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
+            }
+
+
         }
+        #endregion
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
 
             Graphics Graficos = e.Graphics;
-            
+
             Graficos.ResetTransform();
 
             Graficos.Clear(Color.White);
@@ -516,7 +636,7 @@ namespace Teste1
             switch (V_nos)
             {
                 case 1:
-                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), Inicio,new PointF(Inicio.X,Inicio.Y+10));
+                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), Inicio, new PointF(Inicio.X, Inicio.Y + 10));
                     break;
             }
 
