@@ -39,6 +39,7 @@
             this.cb_sentido = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.Tre_forca = new System.Windows.Forms.GroupBox();
+            this.btn_addForca = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Tre_forca.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +53,7 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -139,6 +141,7 @@
             // 
             // Tre_forca
             // 
+            this.Tre_forca.Controls.Add(this.btn_addForca);
             this.Tre_forca.Controls.Add(this.CB_Nos);
             this.Tre_forca.Controls.Add(this.label3);
             this.Tre_forca.Controls.Add(this.txtForca);
@@ -147,10 +150,20 @@
             this.Tre_forca.Controls.Add(this.label2);
             this.Tre_forca.Location = new System.Drawing.Point(24, 12);
             this.Tre_forca.Name = "Tre_forca";
-            this.Tre_forca.Size = new System.Drawing.Size(240, 166);
+            this.Tre_forca.Size = new System.Drawing.Size(240, 177);
             this.Tre_forca.TabIndex = 10;
             this.Tre_forca.TabStop = false;
             this.Tre_forca.Text = "Forças";
+            // 
+            // btn_addForca
+            // 
+            this.btn_addForca.Location = new System.Drawing.Point(17, 143);
+            this.btn_addForca.Name = "btn_addForca";
+            this.btn_addForca.Size = new System.Drawing.Size(75, 23);
+            this.btn_addForca.TabIndex = 10;
+            this.btn_addForca.Text = "Add Força";
+            this.btn_addForca.UseVisualStyleBackColor = true;
+            this.btn_addForca.Click += new System.EventHandler(this.btn_addForca_Click);
             // 
             // Form1
             // 
@@ -185,6 +198,7 @@
         private System.Windows.Forms.ComboBox cb_sentido;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox Tre_forca;
+        private System.Windows.Forms.Button btn_addForca;
     }
 }
 

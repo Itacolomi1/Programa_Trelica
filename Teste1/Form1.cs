@@ -115,6 +115,7 @@ namespace Teste1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            g = pictureBox1.CreateGraphics();
             Tre_forca.Visible = false;
             DoubleBuffered = true;
             string[] dados = File.ReadAllLines("dados.txt");
@@ -387,6 +388,7 @@ namespace Teste1
         }
         int V_nos = 0;
         PointF Inicio;
+        bool valida;
         private void Conta_Nos(object sender, EventArgs e)
         {
             
@@ -419,11 +421,19 @@ namespace Teste1
 
                 V_nos = 1;
 
-                Inicio = Nos[0];
+                Inicio = Nosverdade[0];
 
                 CB_Nos.DataSource = Nosverdade;
-
+                valida = true;
                 
+                
+                
+
+
+
+               
+                    
+
             }
             else
             {
@@ -436,12 +446,49 @@ namespace Teste1
 
         }
 
+        
 
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            //if (e.Button == MouseButtons.Left && valida == true)
+            //{
+            //    PointF ponto = GetScalePtFromClientPt(e.Location);
+
+            //    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+            //    g.ScaleTransform(sf, sf);
+            //    g.TranslateTransform(-Corner.X, -Corner.Y);
+
+            //    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), ponto, new PointF(ponto.X, ponto.Y- 15));
+
+
+
+
+            //}
+        }
+
+        private void btn_addForca_Click(object sender, EventArgs e)
+        {
+            PointF Ponto =  (PointF)CB_Nos.SelectedItem;
+
+            g.ResetTransform();
+
+            
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+            g.ScaleTransform(sf, sf);
+            g.TranslateTransform(-Corner.X, -Corner.Y);
+
+            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y - 15));
+            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X-5, Ponto.Y - 5));
+            g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X +5, Ponto.Y - 5));
+        }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
 
             Graphics Graficos = e.Graphics;
+            
             Graficos.ResetTransform();
 
             Graficos.Clear(Color.White);
