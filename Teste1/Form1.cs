@@ -256,18 +256,43 @@ namespace Teste1
         {
             Barras.OrderBy(y => y.Key);
             List<double> Angulos = new List<double>();
-            int x = 0;
+
+            // Barra 1
+            double Xinicial;
+            double Yinicial;
+
+            // Barra 2
+            double Xfinal;
+            double Yfinal;
+
             for (int i = 0; i < Barras.Keys.Count(); i++)
             {
-                if (i == Barras.Keys.Count() - 1)
+                if (i != Barras.Keys.Count - 1)
                 {
-                    Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
-                 Math.Atan2(Barras[x].pt2.Y - Barras[x].pt1.Y, Barras[x].pt2.X - Barras[x].pt1.X));
-                    break;
+                    //Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
+                    //Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X));
 
+                    Xinicial = Math.Abs(Barras[i].pt2.X - Barras[i].pt1.X);
+                    Yinicial = Math.Abs(Barras[i].pt2.Y - Barras[i].pt1.Y);
+
+                    Xfinal = Math.Abs(Barras[i + 1].pt2.X - Barras[i + 1].pt1.X);
+                    Yfinal = Math.Abs(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y);
+
+                    Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
                 }
-                Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
-                 Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X));
+                else
+                {
+                    Xinicial = Math.Abs(Barras[i].pt2.X - Barras[i].pt1.X);
+                    Yinicial = Math.Abs(Barras[i].pt2.Y - Barras[i].pt1.Y);
+
+                    Xfinal = Math.Abs(Barras[0].pt2.X - Barras[0].pt1.X);
+                    Yfinal = Math.Abs(Barras[0].pt2.Y - Barras[0].pt1.Y);
+
+                    Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
+                }
+
+                //Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
+                // Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X));
 
             }
             //Double Angle = Math.Atan2(y2 - y1, x2 - x1) - Math.Atan2(y4 - y3, x4 - x3);
@@ -283,7 +308,7 @@ namespace Teste1
 
         public static bool ValidaTrelica(int NumNos, int NumBarras, int NumRapoios)
         {
-            if ((NumNos * 2) == (NumBarras + NumRapoios) | (NumNos * 2) > (NumBarras + NumRapoios))
+            if ((NumNos * 2) == (NumBarras + NumRapoios) || (NumNos * 2) > (NumBarras + NumRapoios))
             {
                 return true;
             }
@@ -310,7 +335,7 @@ namespace Teste1
 
 
             CB_Nos.DataSource = Nosverdade;
-            List<double> AngulosVerdade = Angulo(shapes);
+            ////List<double> AngulosVerdade = Angulo(shapes);
 
             if (ValidaTrelica(Tre.Nos, Tre.Barras, 2) == true)
             {
@@ -322,23 +347,15 @@ namespace Teste1
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
 
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
-
-
-
-                foreach (var item in Nosverdade)
-                {
-                    MessageBox.Show($"Nos: {item}");
-                }
-
-
-
             }
             else
             {
                 MessageBox.Show("Treliça Inválida");
             }
-
-
+            if (shapes.Count > 0)
+            {
+                Angulo(shapes);
+            }
         }
         #endregion
 
@@ -446,6 +463,47 @@ namespace Teste1
 
         }
 
+        //public List<double> CalculaReacao(List<Forca> F)
+        //{
+        //    List<double> Reacao = new List<double>();
+        //    double AB = 0;
+        //    double PontoMaisAlto = 0;
+        //    foreach (var item in F)
+        //    {
+        //        if (item.Sentido == "Baixo")
+        //            AB += item.Valor;
+        //        if (item.No_aplicado.Y > PontoMaisAlto)
+        //        {
+        //            PontoMaisAlto = item.No_aplicado.Y;
+        //        }
+        //    }
+        //    PointF Inicio = F[0].No_aplicado;
+        //    double distancia = 0;
+        //    double Momento = 0;
+
+        //    for (int i = 0; i < F.Count(); i++)
+        //    {
+        //        distancia = F[i].No_aplicado.X - Inicio.X;
+        //        if (F[i].Sentido == "Baixo")
+        //        {
+        //            Momento += (F[i].Valor * distancia);
+        //        }
+
+        //        if (F[i].Sentido == "Cima")
+        //        {
+        //            Momento -= (F[i].Valor * distancia);
+        //        }
+
+        //        if (F[i].Sentido == "Direita")
+        //        {
+
+
+        //        }
+
+
+        //    }
+        //}
+
 
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -470,134 +528,145 @@ namespace Teste1
         List<Forca> Forca_Trelica = new List<Forca>();
         private void btn_addForca_Click(object sender, EventArgs e)
         {
-            Erro.Clear();
-            if (string.IsNullOrEmpty(txtForca.Text))
+            try
             {
-                Erro.SetError(txtForca, "Digite Algum valor nesta Força");
-                return;
+
+
+                Erro.Clear();
+                if (string.IsNullOrEmpty(txtForca.Text))
+                {
+                    Erro.SetError(txtForca, "Digite Algum valor nesta Força");
+                    return;
+                }
+                if (cb_sentido.SelectedItem == null)
+                {
+                    Erro.SetError(cb_sentido, "Escolha o sentido da Força");
+                    return;
+                }
+                if (CB_Nos.SelectedItem == null)
+                {
+                    Erro.SetError(cb_sentido, "Escolha o Nó desejado");
+                    return;
+                }
+
+                if (cb_sentido.SelectedItem.ToString() == "Baixo")
+                {
+                    //Pego o nó selecionado
+                    PointF Ponto = (PointF)CB_Nos.SelectedItem;
+                    //Pego o valor, sentidp e nó da Força
+                    Forca force = new Forca();
+                    force.Valor = double.Parse(txtForca.Text);
+                    force.Sentido = "Baixo";
+                    force.No_aplicado = Ponto;
+
+                    Forca_Trelica.Add(force);//Adiciono na Lista de Forças
+
+                    //as próximas 5 linhas transformam as coordenadasda picturebox, na escala correta
+                    g.ResetTransform();
+
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                    g.ScaleTransform(sf, sf);
+                    g.TranslateTransform(-Corner.X, -Corner.Y);
+
+                    //Desenho a flecha
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y - 15));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
+                }
+
+
+
+                if (cb_sentido.SelectedItem.ToString() == "Cima")
+                {
+                    PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                    Forca force = new Forca();
+                    force.Valor = double.Parse(txtForca.Text);
+                    force.Sentido = "Cima";
+                    force.No_aplicado = Ponto;
+
+                    Forca_Trelica.Add(force);
+
+                    g.ResetTransform();
+
+
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                    g.ScaleTransform(sf, sf);
+                    g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y + 15));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
+                }
+
+                if (cb_sentido.SelectedItem.ToString() == "Direita")
+                {
+                    PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                    Forca force = new Forca();
+                    force.Valor = double.Parse(txtForca.Text);
+                    force.Sentido = "Direita";
+                    force.No_aplicado = Ponto;
+
+                    Forca_Trelica.Add(force);
+
+                    g.ResetTransform();
+
+
+
+
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                    g.ScaleTransform(sf, sf);
+                    g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 15, Ponto.Y));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
+                }
+
+                if (cb_sentido.SelectedItem.ToString() == "Esquerda")
+                {
+                    PointF Ponto = (PointF)CB_Nos.SelectedItem;
+
+                    Forca force = new Forca();
+                    force.Valor = double.Parse(txtForca.Text);
+                    force.Sentido = "Esquerda";
+                    force.No_aplicado = Ponto;
+
+                    Forca_Trelica.Add(force);
+
+                    g.ResetTransform();
+
+
+
+
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
+                    g.ScaleTransform(sf, sf);
+                    g.TranslateTransform(-Corner.X, -Corner.Y);
+
+
+
+
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 15, Ponto.Y));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
+                    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
+                }
             }
-            if (cb_sentido.SelectedItem == null)
+            catch (Exception msg)
             {
-                Erro.SetError(cb_sentido, "Escolha o sentido da Força");
-                return;
-            }
-            if (CB_Nos.SelectedItem == null)
-            {
-                Erro.SetError(cb_sentido, "Escolha o Nó desejado");
-                return;
-            }
-
-            if (cb_sentido.SelectedItem.ToString() == "Baixo")
-            {
-                //Pego o nó selecionado
-                PointF Ponto = (PointF)CB_Nos.SelectedItem;
-                //Pego o valor, sentidp e nó da Força
-                Forca force = new Forca();
-                force.Valor = double.Parse(txtForca.Text);
-                force.Sentido = "Baixo";
-                force.No_Aplicado = Ponto;
-
-                Forca_Trelica.Add(force);//Adiciono na Lista de Forças
-
-                //as próximas 5 linhas transformam as coordenadasda picturebox, na escala correta
-                g.ResetTransform();
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-                g.ScaleTransform(sf, sf);
-                g.TranslateTransform(-Corner.X, -Corner.Y);
-
-                //Desenho a flecha
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y - 15));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
-            }
+                MessageBox.Show(msg.Message);
 
 
-
-            if (cb_sentido.SelectedItem.ToString() == "Cima")
-            {
-                PointF Ponto = (PointF)CB_Nos.SelectedItem;
-
-                Forca force = new Forca();
-                force.Valor = double.Parse(txtForca.Text);
-                force.Sentido = "Cima";
-                force.No_Aplicado = Ponto;
-
-                Forca_Trelica.Add(force);
-
-                g.ResetTransform();
-
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-                g.ScaleTransform(sf, sf);
-                g.TranslateTransform(-Corner.X, -Corner.Y);
-
-
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X, Ponto.Y + 15));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
-            }
-
-            if (cb_sentido.SelectedItem.ToString() == "Direita")
-            {
-                PointF Ponto = (PointF)CB_Nos.SelectedItem;
-
-                Forca force = new Forca();
-                force.Valor = double.Parse(txtForca.Text);
-                force.Sentido = "Direita";
-                force.No_Aplicado = Ponto;
-
-                Forca_Trelica.Add(force);
-
-                g.ResetTransform();
-
-
-
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-                g.ScaleTransform(sf, sf);
-                g.TranslateTransform(-Corner.X, -Corner.Y);
-
-
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 15, Ponto.Y));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y + 5));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X - 5, Ponto.Y - 5));
-            }
-
-            if (cb_sentido.SelectedItem.ToString() == "Esquerda")
-            {
-                PointF Ponto = (PointF)CB_Nos.SelectedItem;
-
-                Forca force = new Forca();
-                force.Valor = double.Parse(txtForca.Text);
-                force.Sentido = "Esquerda";
-                force.No_Aplicado = Ponto;
-
-                Forca_Trelica.Add(force);
-
-                g.ResetTransform();
-
-
-
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-                g.ScaleTransform(sf, sf);
-                g.TranslateTransform(-Corner.X, -Corner.Y);
-
-
-
-
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 15, Ponto.Y));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y + 5));
-                g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), Ponto, new PointF(Ponto.X + 5, Ponto.Y - 5));
             }
 
 

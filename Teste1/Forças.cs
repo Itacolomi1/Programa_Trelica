@@ -10,11 +10,11 @@ namespace Teste1
      public class Forca
     {
         private string sentido;
-        private double valor;
+        
         private PointF no_aplicado;
         
         
-        public PointF No_Aplicado { get; set; }
+        
 
 
         public string Sentido
@@ -34,9 +34,28 @@ namespace Teste1
             }
         }
 
-        public double Valor { get; set; }
+        public PointF No_aplicado
+        {
+            get
+            {
+                return no_aplicado;
 
-       
+            }
+
+            set
+            {
+
+
+                no_aplicado = value;
+
+            }
+        }
+
+        public double Valor { get; set; }
+        
+
+
+
 
 
 
