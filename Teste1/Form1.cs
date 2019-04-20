@@ -24,13 +24,8 @@ namespace Teste1
             g = pictureBox1.CreateGraphics();
 
         }
+
         Coordenadas Pontos;
-
-
-
-
-
-
 
         #region Desenha o Grid
 
@@ -94,24 +89,7 @@ namespace Teste1
 
         #endregion
 
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_MouseDown(object sender, MouseEventArgs e)
-        {
-
-
-        }
-
-
         Graphics g = null; // initialize in Form_Load with this.CreateGraphics()
-
-
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -139,10 +117,13 @@ namespace Teste1
                 string mod = dados[i];
                 double px = double.Parse(mod.Substring(0, mod.IndexOf(','))) / 10;
                 mod = mod.Remove(0, mod.IndexOf(',') + 1);
+
                 double py = double.Parse(mod.Substring(0, mod.IndexOf('|'))) / 10;
                 mod = mod.Remove(0, mod.IndexOf('|') + 1);
+
                 double sx = double.Parse(mod.Substring(0, mod.IndexOf(','))) / 10;
                 mod = mod.Remove(0, mod.IndexOf(',') + 1);
+
                 double sy = Convert.ToDouble(mod) / 10;
                 double l = Math.Sqrt((Math.Pow((sx - px), 2) + Math.Pow((sy - py), 2))) * 10;
                 double cosx = (sx - px) / l;
@@ -194,23 +175,17 @@ namespace Teste1
                 }
             }
 
-
             cb_sentido.Items.Add("Cima");
             cb_sentido.Items.Add("Baixo");
             cb_sentido.Items.Add("Direita");
             cb_sentido.Items.Add("Esquerda");
-
-
         }
-
-
 
         private PointF MouseDownPt, MouseMovePt;
         private int MouseStaus = 0;
+
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-
-
             if (e.Button == MouseButtons.Left)
             {
                 PointF pt = GetScalePtFromClientPt(e.Location);
@@ -218,10 +193,6 @@ namespace Teste1
                 MouseMovePt = MouseDownPt;
                 MouseStaus = 1;
             }
-
-
-
-
 
             //if (cont == 0)
             //{
@@ -247,8 +218,6 @@ namespace Teste1
             shapes.Clear();
             pictureBox1.Refresh();
             Nosverdade.Clear();
-
-
         }
 
 
@@ -278,8 +247,19 @@ namespace Teste1
                     Xfinal = Math.Abs(Barras[i + 1].pt2.X - Barras[i + 1].pt1.X);
                     Yfinal = Math.Abs(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y);
 
-                    Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
+                    //Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
+
+                    double Angle = Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) - Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X);
+                    Angle = Angle * (180 / Math.PI);
+
+                    if (Angle < 0)
+                        Angle = 180 + Angle;
+                    else
+                        Angle = Angle - 180;
+
+                    Angulos.Add(Angle);
                 }
+
                 else
                 {
                     Xinicial = Math.Abs(Barras[i].pt2.X - Barras[i].pt1.X);
@@ -288,21 +268,25 @@ namespace Teste1
                     Xfinal = Math.Abs(Barras[0].pt2.X - Barras[0].pt1.X);
                     Yfinal = Math.Abs(Barras[0].pt2.Y - Barras[0].pt1.Y);
 
-                    Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
+                    //Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
+
+                    double Angle = Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) - Math.Atan2(Barras[0].pt2.Y - Barras[0].pt1.Y, Barras[0].pt2.X - Barras[0].pt1.X);
+                    Angle = Angle * (180 / Math.PI);
+
+                    if (Angle < 0)
+                        Angle = 180 + Angle;
+                    else
+                        Angle = Angle - 180;
+
+                    Angulos.Add(Angle);
                 }
-
-                //Angulos.Add(Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) -
-                // Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X));
-
             }
             //Double Angle = Math.Atan2(y2 - y1, x2 - x1) - Math.Atan2(y4 - y3, x4 - x3);
 
             return Angulos;
-
         }
 
         List<PointF> Nosverdade = new List<PointF>();
-
 
         #region ValidaTrelica
 
@@ -403,12 +387,13 @@ namespace Teste1
         {
             pictureBox1.Invalidate();
         }
+
         int V_nos = 0;
         PointF Inicio;
         bool valida;
+
         private void Conta_Nos(object sender, EventArgs e)
         {
-
             List<PointF> Nos = new List<PointF>();
             List<PointF> teste = new List<PointF>();
 
@@ -417,9 +402,7 @@ namespace Teste1
             {
                 Nos.Add(item.pt1);
                 Nos.Add(item.pt2);
-
             }
-
 
             foreach (var item in Nos)
             {
@@ -427,11 +410,13 @@ namespace Teste1
                 {
                     teste.Add(item);
                 }
+
                 else if (!Nosverdade.Contains(item))
                 {
                     Nosverdade.Add(item);
                 }
             }
+
             if (Nosverdade.Count != 0)
             {
                 Tre_forca.Visible = true;
@@ -442,25 +427,14 @@ namespace Teste1
 
                 CB_Nos.DataSource = Nosverdade;
                 valida = true;
-
-
-
-
-
-
-
-
-
             }
+
             else
             {
                 MessageBox.Show("Nenhum nó foi identificado");
             }
 
             //flecha.DrawLine(new Pen(Color.Red, flecha.VisibleClipBounds.Width / 100), forca.Inicio, GetScalePtFromClientPt( new PointF(forca.Inicio.X - 15, forca.Inicio.Y - 15)));
-
-
-
         }
 
         //public List<double> CalculaReacao(List<Forca> F)
@@ -504,8 +478,6 @@ namespace Teste1
         //    }
         //}
 
-
-
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             //if (e.Button == MouseButtons.Left && valida == true)
@@ -517,10 +489,6 @@ namespace Teste1
             //    g.TranslateTransform(-Corner.X, -Corner.Y);
 
             //    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), ponto, new PointF(ponto.X, ponto.Y- 15));
-
-
-
-
             //}
         }
 
@@ -675,7 +643,6 @@ namespace Teste1
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-
             Graphics Graficos = e.Graphics;
 
             Graficos.ResetTransform();
@@ -686,7 +653,6 @@ namespace Teste1
             Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
             Graficos.ScaleTransform(sf, sf);
             Graficos.TranslateTransform(-Corner.X, -Corner.Y);
-
 
             DrawGrid(e.Graphics);
 
@@ -708,8 +674,6 @@ namespace Teste1
                     Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), Inicio, new PointF(Inicio.X, Inicio.Y + 10));
                     break;
             }
-
-
         }
     }
 }

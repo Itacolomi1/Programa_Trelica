@@ -18,3 +18,13 @@ C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\bin\D
 C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\bin\Debug\Teste1.pdb
 C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.exe
 C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.pdb
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\bin\Debug\Teste1.exe.config
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\bin\Debug\Teste1.exe
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\bin\Debug\Teste1.pdb
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.csprojAssemblyReference.cache
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.Form1.resources
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.Properties.Resources.resources
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.csproj.GenerateResource.cache
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.csproj.CoreCompileInputs.cache
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.exe
+C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.pdb
