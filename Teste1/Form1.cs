@@ -141,10 +141,10 @@ namespace Teste1
         }
 
 
-        public static List<double> Angulo(Dictionary<int, Shape> Barras)
+        public static Dictionary<PointF, double> Angulo(Dictionary<int, Shape> Barras)
         {
             Barras.OrderBy(y => y.Key);
-            List<double> Angulos = new List<double>();
+            Dictionary<PointF, double> Angulos = new Dictionary<PointF, double>();
 
             // Barra 1
             double Xinicial;
@@ -153,6 +153,8 @@ namespace Teste1
             // Barra 2
             double Xfinal;
             double Yfinal;
+
+            PointF Nozes = new PointF { X = 0, Y = 0 };
 
             for (int i = 0; i < Barras.Keys.Count(); i++)
             {
@@ -167,6 +169,27 @@ namespace Teste1
                     Xfinal = Math.Abs(Barras[i + 1].pt2.X - Barras[i + 1].pt1.X);
                     Yfinal = Math.Abs(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y);
 
+                    //Pega o Nó comum entre as barras
+                    if (Barras[i].pt1 == Barras[i + 1].pt1)
+                    {
+                        Nozes = Barras[i].pt1;
+                    }
+                    if (Barras[i].pt2 == Barras[i + 1].pt2)
+                    {
+                        Nozes = Barras[i].pt2;
+                    }
+                    if (Barras[i].pt1 == Barras[i + 1].pt2)
+                    {
+                        Nozes = Barras[i].pt1;
+                    }
+                    if (Barras[i].pt2 == Barras[i + 1].pt1)
+                    {
+                        Nozes = Barras[i].pt2;
+                    }
+
+
+
+
                     //Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
 
                     double Angle = Math.Atan2(Barras[i].pt2.Y - Barras[i].pt1.Y, Barras[i].pt2.X - Barras[i].pt1.X) - Math.Atan2(Barras[i + 1].pt2.Y - Barras[i + 1].pt1.Y, Barras[i + 1].pt2.X - Barras[i + 1].pt1.X);
@@ -177,7 +200,7 @@ namespace Teste1
                     else
                         Angle = Angle - 180;
 
-                    Angulos.Add(Angle);
+                    Angulos.Add(Nozes, Angle);
                 }
 
                 else
@@ -187,6 +210,25 @@ namespace Teste1
 
                     Xfinal = Math.Abs(Barras[0].pt2.X - Barras[0].pt1.X);
                     Yfinal = Math.Abs(Barras[0].pt2.Y - Barras[0].pt1.Y);
+
+
+                    //Pega o Nó comum entre as barras
+                    if (Barras[i].pt1 == Barras[0].pt1)
+                    {
+                        Nozes = Barras[i].pt1;
+                    }
+                    if (Barras[i].pt2 == Barras[0].pt2)
+                    {
+                        Nozes = Barras[i].pt2;
+                    }
+                    if (Barras[i].pt1 == Barras[0].pt2)
+                    {
+                        Nozes = Barras[i].pt1;
+                    }
+                    if (Barras[i].pt2 == Barras[0].pt1)
+                    {
+                        Nozes = Barras[i].pt2;
+                    }
 
                     //Angulos.Add(Math.Abs((Math.Atan2(Yinicial, Xinicial) - Math.Atan2(Yfinal, Xfinal)) * 180 / Math.PI));
 
@@ -198,7 +240,7 @@ namespace Teste1
                     else
                         Angle = Angle - 180;
 
-                    Angulos.Add(Angle);
+                    Angulos.Add(Nozes, Angle);
                 }
             }
             //Double Angle = Math.Atan2(y2 - y1, x2 - x1) - Math.Atan2(y4 - y3, x4 - x3);
@@ -230,27 +272,67 @@ namespace Teste1
             int cont = 0;
             double[,] Matriz = new double[(Nos.Count()) * 2, (Nos.Count()) * 2];
             int x = (Nos.Count()) * 2;
-
+            bool vertical = true;
+            bool Horizontal = true;
+            bool DemaisF = true;
 
             for (int i = 0; i < x; i++)
             {
+                //NoAtual
+                PointF NoAtual = Nos[cont];
+
                 for (int j = 0; j < x; j++)
                 {
-                    do
+                    if (vertical == true)
                     {
-                        //analisando verticalmente
-                        
-                        
 
+                        //analisando verticalmente
+                        if (Forca_Vertical_Baixo.Keys.Contains(NoAtual))
+                        {
+                            Matriz[i, j] = 1;
+                            continue;
+                        }
+                        else if(!Forca_Vertical_Baixo.Keys.Contains(NoAtual))
+                        {
+                            Matriz[i, j] = 0;
+                            continue;
+
+                        }
+
+
+                        if (Forca_Vertical_Cima.Keys.Contains(NoAtual))
+                        {
+                            Matriz[i, j] = -1;
+                            continue;
+
+                        }
+                        else if (!Forca_Vertical_Cima.Keys.Contains(NoAtual))
+                        {
+                            Matriz[i, j] = 0;
+                            continue;
+
+                        }
+                    }
+
+                    if (Horizontal == true)
+                    {
 
                     }
-                    while (valida = true);
+
+                    if (DemaisF == true)
+                    {
+
+                    }
+
+
+
+
                 }
             }
 
 
             return Matriz;
-            
+
 
 
 
@@ -259,6 +341,13 @@ namespace Teste1
         }
         private void btn_Valida_Click(object sender, EventArgs e)
         {
+
+            Forca force = new Forca();
+            force.Sentido = "Cima";
+            force.Valor = 0;
+
+            Forca_Vertical_Cima.Add(VA, force);
+            Forca_Vertical_Cima.Add(VB, force);
             Trelica Tre = new Trelica();
 
             Tre.Barras = shapes.Count();
@@ -278,6 +367,9 @@ namespace Teste1
             if (ValidaTrelica(Tre.Nos, Tre.Barras, Num_RE_apoios) == true)
             {
                 MessageBox.Show("Treliça Válida");
+                Angulo(shapes);
+
+
 
 
                 PegaInformacaoTrelica(Nosverdade, Forca_Trelica);
@@ -305,7 +397,6 @@ namespace Teste1
             }
             if (shapes.Count > 0)
             {
-                Angulo(shapes);
             }
         }
         #endregion
@@ -384,7 +475,7 @@ namespace Teste1
                 else if (!Nosverdade.Contains(item))
                 {
                     Nosverdade.Add(item);
-                    if (item.Y == VA.Y && item.X != VA.X && Maior<item.X)
+                    if (item.Y == VA.Y && item.X != VA.X && Maior < item.X)
                     {
                         VB = item;
                         Maior = item.X;
@@ -413,51 +504,15 @@ namespace Teste1
             //flecha.DrawLine(new Pen(Color.Red, flecha.VisibleClipBounds.Width / 100), forca.Inicio, GetScalePtFromClientPt( new PointF(forca.Inicio.X - 15, forca.Inicio.Y - 15)));
         }
 
-        //public List<double> CalculaReacao(List<Forca> F)
-        //{
-        //    List<double> Reacao = new List<double>();
-        //    double AB = 0;
-        //    double PontoMaisAlto = 0;
-        //    foreach (var item in F)
-        //    {
-        //        if (item.Sentido == "Baixo")
-        //            AB += item.Valor;
-        //        if (item.No_aplicado.Y > PontoMaisAlto)
-        //        {
-        //            PontoMaisAlto = item.No_aplicado.Y;
-        //        }
-        //    }
-        //    PointF Inicio = F[0].No_aplicado;
-        //    double distancia = 0;
-        //    double Momento = 0;
-
-        //    for (int i = 0; i < F.Count(); i++)
-        //    {
-        //        distancia = F[i].No_aplicado.X - Inicio.X;
-        //        if (F[i].Sentido == "Baixo")
-        //        {
-        //            Momento += (F[i].Valor * distancia);
-        //        }
-
-        //        if (F[i].Sentido == "Cima")
-        //        {
-        //            Momento -= (F[i].Valor * distancia);
-        //        }
-
-        //        if (F[i].Sentido == "Direita")
-        //        {
-
-
-        //        }
-
-
-        //    }
-        //}
-
-
 
         #region Evento_Adiciona_Pega_Forca
         List<Forca> Forca_Trelica = new List<Forca>();
+        Dictionary<PointF, Forca> Forca_Horizontal_Direita = new Dictionary<PointF, Forca>();
+        Dictionary<PointF, Forca> Forca_Horizontal_Esquerda = new Dictionary<PointF, Forca>();
+        Dictionary<PointF, Forca> Forca_Vertical_Cima = new Dictionary<PointF, Forca>();
+        Dictionary<PointF, Forca> Forca_Vertical_Baixo = new Dictionary<PointF, Forca>();
+
+
 
         bool Re_apoio_3 = true;
         private void btn_addForca_Click(object sender, EventArgs e)
@@ -493,7 +548,7 @@ namespace Teste1
                     force.Sentido = "Baixo";
                     force.No_aplicado = Ponto;
 
-                    Forca_Trelica.Add(force);//Adiciono na Lista de Forças
+                    Forca_Vertical_Baixo.Add(Ponto, force);//Adiciono na Lista de Forças
 
                     //as próximas 5 linhas transformam as coordenadasda picturebox, na escala correta
                     g.ResetTransform();
@@ -521,7 +576,7 @@ namespace Teste1
                     force.Sentido = "Cima";
                     force.No_aplicado = Ponto;
 
-                    Forca_Trelica.Add(force);
+                    Forca_Vertical_Cima.Add(Ponto, force);
 
 
                     g.ResetTransform();
@@ -548,10 +603,15 @@ namespace Teste1
                     force.Sentido = "Direita";
                     force.No_aplicado = Ponto;
 
-                    Forca_Trelica.Add(force);
+                    Forca_Horizontal_Direita.Add(Ponto, force);
                     if (Re_apoio_3 == true)
                     {
                         Num_RE_apoios++;
+                        force.Sentido = "Esquerda";
+                        force.No_aplicado = VA;
+                        Forca_Horizontal_Esquerda.Add(VA, force);
+
+
                         Re_apoio_3 = false;
                     }
 
@@ -581,13 +641,17 @@ namespace Teste1
                     force.Sentido = "Esquerda";
                     force.No_aplicado = Ponto;
 
-                    Forca_Trelica.Add(force);
+                    Forca_Horizontal_Esquerda.Add(Ponto, force);
 
                     g.ResetTransform();
 
                     if (Re_apoio_3 == true)
                     {
                         Num_RE_apoios++;
+                        force.Sentido = "Direita";
+                        force.No_aplicado = VA;
+                        Forca_Horizontal_Direita.Add(VA, force);
+
                         Re_apoio_3 = false;
                     }
 
