@@ -56,7 +56,7 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -74,7 +74,7 @@
             // 
             // btn_Valida
             // 
-            this.btn_Valida.Location = new System.Drawing.Point(24, 255);
+            this.btn_Valida.Location = new System.Drawing.Point(117, 143);
             this.btn_Valida.Name = "btn_Valida";
             this.btn_Valida.Size = new System.Drawing.Size(75, 23);
             this.btn_Valida.TabIndex = 2;
@@ -146,6 +146,7 @@
             // 
             this.Tre_forca.Controls.Add(this.btn_addForca);
             this.Tre_forca.Controls.Add(this.CB_Nos);
+            this.Tre_forca.Controls.Add(this.btn_Valida);
             this.Tre_forca.Controls.Add(this.label3);
             this.Tre_forca.Controls.Add(this.txtForca);
             this.Tre_forca.Controls.Add(this.cb_sentido);
@@ -180,7 +181,6 @@
             this.ClientSize = new System.Drawing.Size(666, 348);
             this.Controls.Add(this.Tre_forca);
             this.Controls.Add(this.Flecha);
-            this.Controls.Add(this.btn_Valida);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";

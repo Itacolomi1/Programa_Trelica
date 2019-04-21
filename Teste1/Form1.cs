@@ -90,90 +90,15 @@ namespace Teste1
         #endregion
 
         Graphics g = null; // initialize in Form_Load with this.CreateGraphics()
-
+        int Num_RE_apoios;
         private void Form1_Load(object sender, EventArgs e)
         {
             g = pictureBox1.CreateGraphics();
             Tre_forca.Visible = false;
             DoubleBuffered = true;
-            string[] dados = File.ReadAllLines("dados.txt");
-            double[,] matriz = new double[8, 8];
-            for (int i = 0; i < 8; i++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    matriz[i, y] = 0;
-                }
-            }
-            string[] nums = File.ReadAllLines("num.txt");
-            int t = 0;
-            for (int i = 0; i < dados.Length; i++)
-            {
-                int a = int.Parse(nums[t][0].ToString());
-                int b = int.Parse(nums[t][1].ToString());
-                int c = int.Parse(nums[t][2].ToString());
-                int d = int.Parse(nums[t][3].ToString());
+            Num_RE_apoios = 2;
 
-                string mod = dados[i];
-                double px = double.Parse(mod.Substring(0, mod.IndexOf(','))) / 10;
-                mod = mod.Remove(0, mod.IndexOf(',') + 1);
 
-                double py = double.Parse(mod.Substring(0, mod.IndexOf('|'))) / 10;
-                mod = mod.Remove(0, mod.IndexOf('|') + 1);
-
-                double sx = double.Parse(mod.Substring(0, mod.IndexOf(','))) / 10;
-                mod = mod.Remove(0, mod.IndexOf(',') + 1);
-
-                double sy = Convert.ToDouble(mod) / 10;
-                double l = Math.Sqrt((Math.Pow((sx - px), 2) + Math.Pow((sy - py), 2))) * 10;
-                double cosx = (sx - px) / l;
-                double cosy = (sy - sx) / l;
-
-                matriz[a, a] = matriz[a, a] + (cosx * cosx);
-                matriz[a, b] = matriz[a, b] + (cosx * cosy);
-                matriz[b, a] = matriz[b, a] + (cosy * cosx);
-                matriz[b, b] = matriz[b, b] + (cosy * cosy);
-                matriz[a, c] = matriz[a, c] + ((-1) * cosx * cosx);
-                matriz[a, d] = matriz[a, d] + ((-1) * cosx * cosy);
-                matriz[b, c] = matriz[b, c] + ((-1) * cosy * cosx);
-                matriz[c, d] = matriz[c, d] + ((-1) * cosy * cosy);
-                matriz[c, c] = matriz[c, c] + (cosx * cosx);
-                matriz[c, d] = matriz[c, d] + (cosx * cosy);
-                matriz[d, c] = matriz[d, c] + (cosy * cosx);
-                matriz[d, d] = matriz[d, d] + (cosy * cosy);
-                matriz[c, a] = matriz[c, a] + ((-1) * cosx * cosx);
-                matriz[c, b] = matriz[c, b] + ((-1) * cosx * cosy);
-                matriz[d, a] = matriz[d, a] + ((-1) * cosy * cosx);
-                matriz[d, b] = matriz[d, b] + ((-1) * cosy * cosy);
-
-                t++;
-            }
-
-            double[,] matrizforca = new double[8, 1];
-            matrizforca[2, 0] = 15;
-            matrizforca[3, 0] = 26;
-            matrizforca[4, 0] = 0;
-            matrizforca[5, 0] = 12;
-            matrizforca[6, 0] = 0;
-
-            double[,] matrizdeflexao = new double[8, 1];
-            double[] deflexao = new double[8];
-            deflexao[0] = 0;
-            deflexao[1] = 0;
-            deflexao[7] = 0;
-
-            int x = 5;
-            double[,] matrizid = new double[x, x];
-            for (int i = 0; i < x; i++)
-            {
-                for (int ii = 0; ii < x; ii++)
-                {
-                    if (i == ii)
-                        matrizid[i, ii] = 1;
-                    else
-                        matrizid[i, ii] = 0;
-                }
-            }
 
             cb_sentido.Items.Add("Cima");
             cb_sentido.Items.Add("Baixo");
@@ -183,7 +108,8 @@ namespace Teste1
 
         private PointF MouseDownPt, MouseMovePt;
         private int MouseStaus = 0;
-
+        bool F_NO = true;
+        PointF VA;
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -192,23 +118,15 @@ namespace Teste1
                 MouseDownPt = SnapToGrid(pt);
                 MouseMovePt = MouseDownPt;
                 MouseStaus = 1;
+
+                if (F_NO == true)
+                {
+                    VA = MouseDownPt;
+                    F_NO = false;
+                }
             }
 
-            //if (cont == 0)
-            //{
-            //    Pontos.PontoInicial = GetScalePtFromClientPt(e.Location); 
 
-            //    cont++;
-
-
-            //}
-            //else
-            //{
-            //    Pontos.PontoFinal = GetScalePtFromClientPt(e.Location); 
-
-            //    g.DrawLine(Pens.Black, SnapToGrid(Pontos.PontoInicial), SnapToGrid(Pontos.PontoFinal));
-            //    cont = 0;
-            //}
 
         }
 
@@ -218,6 +136,8 @@ namespace Teste1
             shapes.Clear();
             pictureBox1.Refresh();
             Nosverdade.Clear();
+            F_NO = true;
+            Num_RE_apoios = 2;
         }
 
 
@@ -303,6 +223,40 @@ namespace Teste1
 
 
         }
+
+        public double[,] PegaInformacaoTrelica(List<PointF> Nos, List<Forca> Forças)
+        {
+            bool valida = true;
+            int cont = 0;
+            double[,] Matriz = new double[(Nos.Count()) * 2, (Nos.Count()) * 2];
+            int x = (Nos.Count()) * 2;
+
+
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    do
+                    {
+                        //analisando verticalmente
+                        
+                        
+
+
+                    }
+                    while (valida = true);
+                }
+            }
+
+
+            return Matriz;
+            
+
+
+
+
+
+        }
         private void btn_Valida_Click(object sender, EventArgs e)
         {
             Trelica Tre = new Trelica();
@@ -321,16 +275,29 @@ namespace Teste1
             CB_Nos.DataSource = Nosverdade;
             ////List<double> AngulosVerdade = Angulo(shapes);
 
-            if (ValidaTrelica(Tre.Nos, Tre.Barras, 2) == true)
+            if (ValidaTrelica(Tre.Nos, Tre.Barras, Num_RE_apoios) == true)
             {
                 MessageBox.Show("Treliça Válida");
 
 
-
+                PegaInformacaoTrelica(Nosverdade, Forca_Trelica);
                 //Pega os Nós
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
 
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
+
+                double[,] A = { { -1, 0, 0, 1, 0, 0, 0, 0 }, { 0, -1, 0, 0, 1, 0, 0, 0 }, { 0, 0, -1, 0, 0, 0.3846, 1, 0 }, { 0, 0, 0, 0, -1, -0.9230, 0, 0 }, { 0, 0, 0, -1, 0, -0.3846, 0, 0 }, { 0, 0, 0, 0, 0, 0.9230, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0 - 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, -1 } };
+                double[] b = { 0, 0, 0, 0, -26, 15, -12, 0 };
+                double[] x = gaussSolver(A, b);
+                for (int i = 0; i < 8; i++)
+                {
+                    Console.WriteLine(x[i]);
+                }
+                Console.ReadKey();
+
+
+
+
             }
             else
             {
@@ -390,7 +357,10 @@ namespace Teste1
 
         int V_nos = 0;
         PointF Inicio;
-        bool valida;
+        double Maior = 0;
+
+        PointF VB;
+
 
         private void Conta_Nos(object sender, EventArgs e)
         {
@@ -414,6 +384,11 @@ namespace Teste1
                 else if (!Nosverdade.Contains(item))
                 {
                     Nosverdade.Add(item);
+                    if (item.Y == VA.Y && item.X != VA.X && Maior<item.X)
+                    {
+                        VB = item;
+                        Maior = item.X;
+                    }
                 }
             }
 
@@ -425,8 +400,9 @@ namespace Teste1
 
                 Inicio = Nosverdade[0];
 
+
                 CB_Nos.DataSource = Nosverdade;
-                valida = true;
+
             }
 
             else
@@ -478,22 +454,12 @@ namespace Teste1
         //    }
         //}
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            //if (e.Button == MouseButtons.Left && valida == true)
-            //{
-            //    PointF ponto = GetScalePtFromClientPt(e.Location);
 
-            //    Single sf = Convert.ToSingle(pictureBox1.ClientSize.Width / ScaleWidth);
-            //    g.ScaleTransform(sf, sf);
-            //    g.TranslateTransform(-Corner.X, -Corner.Y);
-
-            //    g.DrawLine(new Pen(Color.Red, g.VisibleClipBounds.Width / 100), ponto, new PointF(ponto.X, ponto.Y- 15));
-            //}
-        }
 
         #region Evento_Adiciona_Pega_Forca
         List<Forca> Forca_Trelica = new List<Forca>();
+
+        bool Re_apoio_3 = true;
         private void btn_addForca_Click(object sender, EventArgs e)
         {
             try
@@ -557,6 +523,7 @@ namespace Teste1
 
                     Forca_Trelica.Add(force);
 
+
                     g.ResetTransform();
 
 
@@ -582,6 +549,11 @@ namespace Teste1
                     force.No_aplicado = Ponto;
 
                     Forca_Trelica.Add(force);
+                    if (Re_apoio_3 == true)
+                    {
+                        Num_RE_apoios++;
+                        Re_apoio_3 = false;
+                    }
 
                     g.ResetTransform();
 
@@ -613,7 +585,11 @@ namespace Teste1
 
                     g.ResetTransform();
 
-
+                    if (Re_apoio_3 == true)
+                    {
+                        Num_RE_apoios++;
+                        Re_apoio_3 = false;
+                    }
 
 
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -675,5 +651,81 @@ namespace Teste1
                     break;
             }
         }
+        #region MetodoCalculaTrelica_PegaInformação
+        public static double[] gaussSolver(double[,] A, double[] b)
+        {
+            double y = Math.Sqrt(A.Length);
+            //ETAPA DE ESCALONAMENTO
+            for (int k = 0; k < y; k++)
+            {
+                //procura o maior k-ésimo coeficiente em módulo
+                double max = Math.Abs(A[k, k]);
+                int maxIndex = k;
+                for (int i = k + 1; i < y; i++)
+                {
+                    if (max < Math.Abs(A[i, k]))
+                    {
+                        max = Math.Abs(A[i, k]);
+                        maxIndex = i;
+                    }
+                }
+                if (maxIndex != k)
+                {
+                    /*
+                    troca a equação k pela equação com o
+                    maior k-ésimo coeficiente em módulo
+                    */
+                    double temp;
+                    for (int j = 0; j < y; j++)
+                    {
+                        temp = A[k, j];
+                        A[k, j] = A[maxIndex, j];
+                        A[maxIndex, j] = temp;
+                    }
+                    temp = b[k];
+                    b[k] = b[maxIndex];
+                    b[maxIndex] = temp;
+                }
+                //Se A[k][k] é zero, então a matriz dos coeficiente é singular
+                //det A = 0
+                if (A[k, k] == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    //realiza o escalonamento
+                    for (int m = k + 1; m < y; m++)
+                    {
+                        double F = -A[m, k] / A[k, k];
+                        A[m, k] = 0; //evita uma iteração
+                        b[m] = b[m] + F * b[k];
+                        for (int l = k + 1; l < y; l++)
+                        {
+                            A[m, l] = A[m, l] + F * A[k, l];
+                        }
+                    }
+                }
+            }
+            //ETAPA DE RESOLUÇÃO DO SISTEMA
+            int yy = Convert.ToInt32(y);
+            double[] X = new double[yy];
+            for (int i = yy - 1; i >= 0; i--)
+            {
+                X[i] = b[i];
+                for (int j = i + 1; j < yy; j++)
+                {
+                    X[i] = X[i] - X[j] * A[i, j];
+                }
+                X[i] = X[i] / A[i, i];
+            }
+            return X;
+        }
+
+
+        #endregion
+
     }
+
+
 }

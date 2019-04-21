@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Teste1
 {
     public class Trelica 
     {
-        private double forca;
+        
         private int NumNos;
-        private int NumApoios;
+        
         private int NumBarras;
+
+        private List<Shape> barras1;
         
 
-
+        
         
 
 
@@ -32,6 +35,21 @@ namespace Teste1
 
         }
 
+        public List<Shape> Barras1
+        {
+            get
+            {
+                return barras1;
+            }
+            set
+            {
+                barras1 = value;
+            }
+
+
+        }
+
+
         public int Barras
         {
             get
@@ -46,22 +64,29 @@ namespace Teste1
 
         }
 
+        public static Dictionary<PointF ,List<Shape>> Barra_NO(Dictionary<int, Shape> barritas,List<PointF> Nozitos)
+        {
+            Dictionary<PointF, List<Shape>> Dicionario = new Dictionary<PointF, List<Shape>>();
+            List<Shape> Perfis = new List<Shape>();
+            foreach (var item in Nozitos)
+            {
+                foreach (var i in barritas)
+                {
+                    if(i.Value.pt1== item || i.Value.pt2== item)
+                    {
+                        Perfis.Add(i.Value);
+                        Dicionario.Add(item, Perfis);
+                    }
+                }
+            }
+
+            return Dicionario;
+
+        }
+
 
         
-        //public static List<double> Calcula_Re_Apoio(List<Forças> Forcas)
-        //{
-        //    double RA, RB;
-
-        //    foreach (var item in Forcas)
-        //    {
-
-
-        //    }
-
-
-
-
-        //}
+       
 
 
 

@@ -12,6 +12,7 @@ namespace Teste1
         private string sentido;
         
         private PointF no_aplicado;
+     
         
         
         
@@ -52,7 +53,9 @@ namespace Teste1
         }
 
         public double Valor { get; set; }
+
         
+
 
 
 
