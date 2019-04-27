@@ -266,79 +266,133 @@ namespace Teste1
 
         }
 
-        public double[,] PegaInformacaoTrelica(List<PointF> Nos, List<Forca> Forças)
+        public double[,] PegaInformacaoTrelica(List<PointF> Nos)
         {
-            bool valida = true;
+            double[,] Matriz = new double[(Nos.Count() * 2), shapes.Count + 3];
+
+            Dictionary<PointF, Forca> Horizontal_Direita = new Dictionary<PointF, Forca>();
+            Dictionary<PointF, Forca> Horizontal_Esquerda = new Dictionary<PointF, Forca>();
+            Dictionary<PointF, Forca> VErtical_Cima = new Dictionary<PointF, Forca>();
+            Dictionary<PointF, Forca> Vertical_Baixo = new Dictionary<PointF, Forca>();
+            int x = shapes.Count;
+            int z = (Nos.Count() * 2);
             int cont = 0;
-            double[,] Matriz = new double[(Nos.Count()) * 2, (Nos.Count()) * 2];
-            int x = (Nos.Count()) * 2;
-            bool vertical = true;
-            bool Horizontal = true;
-            bool DemaisF = true;
+            int dinheiros = 0;
 
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < z; i += 2)
             {
-                //NoAtual
-                PointF NoAtual = Nos[cont];
-
                 for (int j = 0; j < x; j++)
                 {
-                    if (vertical == true)
-                    {
-
-                        //analisando verticalmente
-                        if (Forca_Vertical_Baixo.Keys.Contains(NoAtual))
-                        {
-                            Matriz[i, j] = 1;
-                            continue;
-                        }
-                        else if(!Forca_Vertical_Baixo.Keys.Contains(NoAtual))
-                        {
-                            Matriz[i, j] = 0;
-                            continue;
-
-                        }
-
-
-                        if (Forca_Vertical_Cima.Keys.Contains(NoAtual))
-                        {
-                            Matriz[i, j] = -1;
-                            continue;
-
-                        }
-                        else if (!Forca_Vertical_Cima.Keys.Contains(NoAtual))
-                        {
-                            Matriz[i, j] = 0;
-                            continue;
-
-                        }
-                    }
-
-                    if (Horizontal == true)
-                    {
-
-                    }
-
-                    if (DemaisF == true)
-                    {
-
-                    }
-
-
-
-
+                    Matriz[i, j] = 0;
                 }
             }
 
+            //Preenche valores verticais da matriz
+            for (int i = 0; i < z; i += 2)
+            {
+                PointF NO = shapes[dinheiros].pt1;
+                for (int j = 0; j < x; j++)
+                {
+                    double anguloBarra = (Math.Atan2(shapes[cont].pt1.Y - shapes[cont].pt2.Y, shapes[cont].pt1.X - shapes[cont].pt2.X)) * (180 / Math.PI);
+                    if (NO == shapes[cont].pt1 || NO == shapes[cont].pt2)
+                    {
+                        // valores na vertical
+                        if (anguloBarra == 90)
+                        {
+                            // salvar 1
+                            Matriz[i, j] = 1;
+                        }
+
+                        else if (anguloBarra == -90)
+                        {
+                            // salvar -1
+                            Matriz[i, j] = -1;
+                        }
+
+                        else if (anguloBarra != 0 && anguloBarra != 90 && anguloBarra != -90 && anguloBarra != 180)
+                        {
+                            // salvar sen(anguloBarra)
+                            Matriz[i, j] = Math.Sin(anguloBarra);
+                        }
+                    }
+
+                    cont++;
+                }
+
+                cont = 0;
+                dinheiros++;
+            }
+
+            // Preenche valores horizontais da matriz
+            for (int i = 1; i < z; i += 2)
+            {
+                PointF NO = shapes[dinheiros].pt1;
+                for (int j = 0; j < x; j++)
+                {
+
+                    //Matriz[i, j] = 0;
+
+                    double anguloBarra = (Math.Atan2(shapes[cont].pt1.Y - shapes[cont].pt2.Y, shapes[cont].pt1.X - shapes[cont].pt2.X)) * (180 / Math.PI);
+
+                    if (NO == shapes[cont].pt1 || NO == shapes[cont].pt2)
+                    {
+                        // valores na vertical
+                        if (anguloBarra == 0)
+                        {
+                            // salvar 1
+                            Matriz[i, j] = 1;
+                        }
+
+                        else if (anguloBarra == 180)
+                        {
+                            // salvar -1
+                            Matriz[i, j] = -1;
+                        }
+
+                        else if (anguloBarra != 0 && anguloBarra != 180 && anguloBarra != 90 && anguloBarra != -90)
+                        {
+                            // salvar sen(anguloBarra)
+                            Matriz[i, j] = Math.Sin(anguloBarra);
+                        }
+                    }
+                    cont++;
+                }
+
+                cont = 0;
+                dinheiros++;
+            }
+
+            //Dictionary<PointF, double> Anguloucos = Angulo(shapes);
+            //for (int i = 0; i < shapes.Count; i++)
+            //{
+            //    //Analize Vertical
+            //    if(shapes[i].pt1.X == shapes[i+1].pt1.X && shapes[i].pt1.Y != shapes[i + 1].pt1.Y)
+            //    {
+            //        double anguloBarra = (Math.Atan2(shapes[i + 1].pt1.Y - shapes[i].pt1.Y, shapes[i + 1].pt1.X - shapes[i].pt1.X)) * (180 / Math.PI);
+
+            //        // valores na vertical
+            //        if (anguloBarra == 90)
+            //        {
+            //            // salvar 1
+            //        }
+
+            //        else if (anguloBarra == -90)
+            //        {
+            //            // salvar -1
+            //        }
+
+            //        else if (anguloBarra != 0 && anguloBarra != 90 && anguloBarra != -90)
+            //        {
+            //            // salvar sen(anguloBarra)
+            //        }
+
+
+            //    }
+            //}
 
             return Matriz;
-
-
-
-
-
-
         }
+
         private void btn_Valida_Click(object sender, EventArgs e)
         {
 
@@ -351,8 +405,6 @@ namespace Teste1
             Trelica Tre = new Trelica();
 
             Tre.Barras = shapes.Count();
-
-
 
             //Pegar as barras que possuem os nós 
             //List<Shape> Barras_Nos = shapes.Where(x => Nosverdade.Contains(x.Value.pt1) && Nosverdade.Contains(x.Value.pt2)).ToList();
@@ -369,10 +421,6 @@ namespace Teste1
                 MessageBox.Show("Treliça Válida");
                 Angulo(shapes);
 
-
-
-
-                PegaInformacaoTrelica(Nosverdade, Forca_Trelica);
                 //Pega os Nós
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
 
@@ -383,6 +431,7 @@ namespace Teste1
                 double[] x = gaussSolver(A, b);
                 for (int i = 0; i < 8; i++)
                 {
+
                     Console.WriteLine(x[i]);
                 }
                 Console.ReadKey();
@@ -452,7 +501,7 @@ namespace Teste1
 
         PointF VB;
 
-
+        double[,] Matriz_Forca_Barra;
         private void Conta_Nos(object sender, EventArgs e)
         {
             List<PointF> Nos = new List<PointF>();
@@ -480,11 +529,18 @@ namespace Teste1
                         VB = item;
                         Maior = item.X;
                     }
+
                 }
             }
 
             if (Nosverdade.Count != 0)
             {
+
+
+                PegaInformacaoTrelica(Nosverdade);
+
+
+
                 Tre_forca.Visible = true;
 
                 V_nos = 1;
@@ -512,15 +568,14 @@ namespace Teste1
         Dictionary<PointF, Forca> Forca_Vertical_Cima = new Dictionary<PointF, Forca>();
         Dictionary<PointF, Forca> Forca_Vertical_Baixo = new Dictionary<PointF, Forca>();
 
-
+        Dictionary<PointF, Forca> forcaApoio = new Dictionary<PointF, Forca>();
+        Dictionary<PointF, Forca> forcaBarra = new Dictionary<PointF, Forca>();
 
         bool Re_apoio_3 = true;
         private void btn_addForca_Click(object sender, EventArgs e)
         {
             try
             {
-
-
                 Erro.Clear();
                 if (string.IsNullOrEmpty(txtForca.Text))
                 {
