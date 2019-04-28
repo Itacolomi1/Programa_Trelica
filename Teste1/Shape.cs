@@ -13,7 +13,7 @@ namespace Teste1
         public PointF pt1;
         public PointF pt2;
         public Color color = Color.Black;
-
+        public double Agulo { get; set;}
         public void Draw(Graphics g)
         {
             using (Pen p = new Pen(color, g.VisibleClipBounds.Width / 100))

@@ -269,7 +269,7 @@ namespace Teste1
         public double[,] PegaInformacaoTrelica(List<PointF> Nos)
         {
             double[,] Matriz = new double[(Nos.Count() * 2), shapes.Count + 3];
-
+            Nos = Nos.OrderBy(orde => orde.X).ToList();
             Dictionary<PointF, Forca> Horizontal_Direita = new Dictionary<PointF, Forca>();
             Dictionary<PointF, Forca> Horizontal_Esquerda = new Dictionary<PointF, Forca>();
             Dictionary<PointF, Forca> VErtical_Cima = new Dictionary<PointF, Forca>();
@@ -279,118 +279,88 @@ namespace Teste1
             int cont = 0;
             int dinheiros = 0;
 
-            for (int i = 0; i < z; i += 2)
-            {
-                for (int j = 0; j < x; j++)
-                {
-                    Matriz[i, j] = 0;
-                }
-            }
+            // Assumir sinal das forças como os sinais dos eixos(Dierita e Cima + e Baixo e Esquerda -)
 
-            //Preenche valores verticais da matriz
-            for (int i = 0; i < z; i += 2)
+
+            double[,] matriz = new double[Nos.Count * 2, Nos.Count * 2 -1];
+            int linha = 0, coluna = 0;
+
+            foreach (var no in Nos)// Preenchera a matriz
             {
-                PointF NO = shapes[dinheiros].pt1;
-                for (int j = 0; j < x; j++)
+                if (VA == no)// Coloca apoio fixo na matriz
                 {
-                    double anguloBarra = (Math.Atan2(shapes[cont].pt1.Y - shapes[cont].pt2.Y, shapes[cont].pt1.X - shapes[cont].pt2.X)) * (180 / Math.PI);
-                    if (NO == shapes[cont].pt1 || NO == shapes[cont].pt2)
+                    matriz[linha, coluna] = 1;
+                    matriz[linha + 1, ++coluna] = 1;
+                    matriz[linha + 1, ++coluna] = 0;
+                }
+                else if (VB == no)// Coloca apoio móvel na matriz
+                {
+                    matriz[linha, coluna] = 0;
+                    matriz[linha + 1, ++coluna] = 0;
+                    matriz[linha + 1, ++coluna] = 1;
+                }
+                else// Se não for apoio deve pular as colunas dos mesmos
+                {
+                    coluna += 2;
+                }
+
+                foreach (var barra in shapes)// Coloca na matriz as barras que possuem o nó atual como inicial ou final
+                {
+                    coluna++;
+
+                    if (barra.Value.pt1 == no)
                     {
-                        // valores na vertical
-                        if (anguloBarra == 90)
-                        {
-                            // salvar 1
-                            Matriz[i, j] = 1;
-                        }
-
-                        else if (anguloBarra == -90)
-                        {
-                            // salvar -1
-                            Matriz[i, j] = -1;
-                        }
-
-                        else if (anguloBarra != 0 && anguloBarra != 90 && anguloBarra != -90 && anguloBarra != 180)
-                        {
-                            // salvar sen(anguloBarra)
-                            Matriz[i, j] = Math.Sin(anguloBarra);
-                        }
+                        matriz[linha, coluna] = Math.Cos((barra.Value.Agulo * Math.PI)/180 );
+                        matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI/180);
                     }
-
-                    cont++;
-                }
-
-                cont = 0;
-                dinheiros++;
-            }
-
-            // Preenche valores horizontais da matriz
-            for (int i = 1; i < z; i += 2)
-            {
-                PointF NO = shapes[dinheiros].pt1;
-                for (int j = 0; j < x; j++)
-                {
-
-                    //Matriz[i, j] = 0;
-
-                    double anguloBarra = (Math.Atan2(shapes[cont].pt1.Y - shapes[cont].pt2.Y, shapes[cont].pt1.X - shapes[cont].pt2.X)) * (180 / Math.PI);
-
-                    if (NO == shapes[cont].pt1 || NO == shapes[cont].pt2)
+                    else if (barra.Value.pt2 == no)
                     {
-                        // valores na vertical
-                        if (anguloBarra == 0)
-                        {
-                            // salvar 1
-                            Matriz[i, j] = 1;
-                        }
-
-                        else if (anguloBarra == 180)
-                        {
-                            // salvar -1
-                            Matriz[i, j] = -1;
-                        }
-
-                        else if (anguloBarra != 0 && anguloBarra != 180 && anguloBarra != 90 && anguloBarra != -90)
-                        {
-                            // salvar sen(anguloBarra)
-                            Matriz[i, j] = Math.Sin(anguloBarra);
-                        }
+                        // Multiplica-se por -1 pois barras possuem angulos padronizados que vão do ponto inicial para o final
+                        matriz[linha, coluna] = Math.Cos((barra.Value.Agulo * Math.PI) / 180)*-1 ;
+                        matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI / 180) * -1;
                     }
-                    cont++;
                 }
 
-                cont = 0;
-                dinheiros++;
+                coluna++;
+
+                //foreach (clsVetorForca vf in vetores)// Coloca na matriz os vetores já conhecidos na última coluna (considerar como o outro lado do =)
+                //{
+                //    if (vf.PontaVetor == no.Value)
+                //    {
+
+                //        switch (vf.SentidoVetor)
+                //        {
+                //            case 0:
+                //                matriz[linha + 1, coluna] += vf.IntensidadeForca;
+                //                break;
+
+                //            case 1:
+                //                matriz[linha + 1, coluna] -= vf.IntensidadeForca;
+                //                break;
+
+                //            case 2:
+                //                matriz[linha, coluna] -= vf.IntensidadeForca;
+                //                break;
+
+                //            default:
+                //                matriz[linha, coluna] += vf.IntensidadeForca;
+                //                break;
+                //        }
+                //    }
+                //}
+
+                linha += 2;
+                coluna = 0;
             }
 
-            //Dictionary<PointF, double> Anguloucos = Angulo(shapes);
-            //for (int i = 0; i < shapes.Count; i++)
-            //{
-            //    //Analize Vertical
-            //    if(shapes[i].pt1.X == shapes[i+1].pt1.X && shapes[i].pt1.Y != shapes[i + 1].pt1.Y)
-            //    {
-            //        double anguloBarra = (Math.Atan2(shapes[i + 1].pt1.Y - shapes[i].pt1.Y, shapes[i + 1].pt1.X - shapes[i].pt1.X)) * (180 / Math.PI);
-
-            //        // valores na vertical
-            //        if (anguloBarra == 90)
-            //        {
-            //            // salvar 1
-            //        }
-
-            //        else if (anguloBarra == -90)
-            //        {
-            //            // salvar -1
-            //        }
-
-            //        else if (anguloBarra != 0 && anguloBarra != 90 && anguloBarra != -90)
-            //        {
-            //            // salvar sen(anguloBarra)
-            //        }
 
 
-            //    }
-            //}
 
-            return Matriz;
+
+
+
+
+            return matriz;
         }
 
         private void btn_Valida_Click(object sender, EventArgs e)
@@ -479,6 +449,8 @@ namespace Teste1
                     shp.pt1 = MouseDownPt;
                     shp.pt2 = MouseMovePt;
                     shp.color = Color.Black;
+                    double Angle = (Math.Atan2(shp.pt2.Y - shp.pt1.Y, shp.pt2.X - shp.pt1.X))* 180/Math.PI;
+                    shp.Agulo = Angle * -1;
                     shapes.Add(contador, shp);
                     contador++;
 
@@ -501,7 +473,7 @@ namespace Teste1
 
         PointF VB;
 
-        double[,] Matriz_Forca_Barra;
+        
         private void Conta_Nos(object sender, EventArgs e)
         {
             List<PointF> Nos = new List<PointF>();
