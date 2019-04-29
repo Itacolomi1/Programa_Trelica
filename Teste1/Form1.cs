@@ -324,6 +324,7 @@ namespace Teste1
                         //matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI / 180) * -1;
                         matriz[linha, coluna] = Math.Round((Math.Cos(anguloRad)) * -1, 9);
                         matriz[linha + 1, coluna] = Math.Round((Math.Sin(anguloRad)) * -1, 9);
+                        // feito apenas para commit
                     }
                 }
 
