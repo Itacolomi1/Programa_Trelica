@@ -307,17 +307,23 @@ namespace Teste1
                 foreach (var barra in shapes)// Coloca na matriz as barras que possuem o nó atual como inicial ou final
                 {
                     coluna++;
+                    double anguloRad = barra.Value.Agulo * (Math.PI / 180);
 
                     if (barra.Value.pt1 == no)
                     {
-                        matriz[linha, coluna] = Math.Cos((barra.Value.Agulo * Math.PI)/180 );
-                        matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI/180);
+                        //matriz[linha, coluna] = Math.Cos(barra.Value.Agulo * Math.PI/180 );
+                        //matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI/180);
+
+                        matriz[linha, coluna] = Math.Round(Math.Cos(anguloRad), 9);
+                        matriz[linha + 1, coluna] = Math.Round(Math.Sin(anguloRad), 9);
                     }
                     else if (barra.Value.pt2 == no)
                     {
                         // Multiplica-se por -1 pois barras possuem angulos padronizados que vão do ponto inicial para o final
-                        matriz[linha, coluna] = Math.Cos((barra.Value.Agulo * Math.PI) / 180)*-1 ;
-                        matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI / 180) * -1;
+                        //matriz[linha, coluna] = Math.Cos(barra.Value.Agulo * Math.PI / 180) * -1 ;
+                        //matriz[linha + 1, coluna] = Math.Sin(barra.Value.Agulo * Math.PI / 180) * -1;
+                        matriz[linha, coluna] = Math.Round((Math.Cos(anguloRad)) * -1, 9);
+                        matriz[linha + 1, coluna] = Math.Round((Math.Sin(anguloRad)) * -1, 9);
                     }
                 }
 
