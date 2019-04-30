@@ -266,6 +266,55 @@ namespace Teste1
 
         }
 
+        public double[] Pega_Trelica_resp (List<PointF> Nos, List<Forca> Forca)
+        {
+            Nos = Nos.OrderBy(orde => orde.X).ToList();
+            Forca = Forca.OrderBy(ordem => ordem.No_aplicado.X).ToList();
+            double[] matriz = new double[Nos.Count() * 2];
+            int horizontal = 0, vertical=1;
+
+            foreach (var no in Nos)
+            {
+                foreach (var forci in Forca)
+                {
+                    if(no==forci.No_aplicado)
+                    {
+
+                        switch (forci.Sentido)
+                        {
+                            case "Cima":
+                                matriz[vertical] += forci.Valor;
+                                break;
+                            case "Baixo":
+                                matriz[vertical] -= forci.Valor;
+                                break;
+                            case "Direita":
+                                matriz[horizontal] += forci.Valor;
+                                break;
+
+                            case "Esquerda":
+                                matriz[horizontal] -= forci.Valor;
+                                break;
+
+                        }
+
+
+                    }
+                }
+                horizontal+=2;
+                vertical+=2;
+            }
+
+
+            return matriz;
+
+        
+
+
+
+        }
+
+
         public double[,] PegaInformacaoTrelica(List<PointF> Nos)
         {
             double[,] Matriz = new double[(Nos.Count() * 2), shapes.Count + 3];
@@ -377,8 +426,8 @@ namespace Teste1
             force.Sentido = "Cima";
             force.Valor = 0;
 
-            Forca_Vertical_Cima.Add(VA, force);
-            Forca_Vertical_Cima.Add(VB, force);
+            //Forca_Vertical_Cima.Add(VA, force);
+            //Forca_Vertical_Cima.Add(VB, force);
             Trelica Tre = new Trelica();
 
             Tre.Barras = shapes.Count();
@@ -396,12 +445,14 @@ namespace Teste1
             if (ValidaTrelica(Tre.Nos, Tre.Barras, Num_RE_apoios) == true)
             {
                 MessageBox.Show("Treliça Válida");
-                Angulo(shapes);
+                
 
                 //Pega os Nós
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
 
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
+                double[,] A_1 = PegaInformacaoTrelica(Nosverdade);
+                double[] B_1 = Pega_Trelica_resp(Nosverdade, Forca_Trelica);
 
                 double[,] A = { { -1, 0, 0, 1, 0, 0, 0, 0 }, { 0, -1, 0, 0, 1, 0, 0, 0 }, { 0, 0, -1, 0, 0, 0.3846, 1, 0 }, { 0, 0, 0, 0, -1, -0.9230, 0, 0 }, { 0, 0, 0, -1, 0, -0.3846, 0, 0 }, { 0, 0, 0, 0, 0, 0.9230, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0 - 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, -1 } };
                 double[] b = { 0, 0, 0, 0, -26, 15, -12, 0 };
@@ -516,7 +567,7 @@ namespace Teste1
             {
 
 
-                PegaInformacaoTrelica(Nosverdade);
+                
 
 
 
@@ -542,14 +593,7 @@ namespace Teste1
 
         #region Evento_Adiciona_Pega_Forca
         List<Forca> Forca_Trelica = new List<Forca>();
-        Dictionary<PointF, Forca> Forca_Horizontal_Direita = new Dictionary<PointF, Forca>();
-        Dictionary<PointF, Forca> Forca_Horizontal_Esquerda = new Dictionary<PointF, Forca>();
-        Dictionary<PointF, Forca> Forca_Vertical_Cima = new Dictionary<PointF, Forca>();
-        Dictionary<PointF, Forca> Forca_Vertical_Baixo = new Dictionary<PointF, Forca>();
-
-        Dictionary<PointF, Forca> forcaApoio = new Dictionary<PointF, Forca>();
-        Dictionary<PointF, Forca> forcaBarra = new Dictionary<PointF, Forca>();
-
+        
         bool Re_apoio_3 = true;
         private void btn_addForca_Click(object sender, EventArgs e)
         {
@@ -582,7 +626,7 @@ namespace Teste1
                     force.Sentido = "Baixo";
                     force.No_aplicado = Ponto;
 
-                    Forca_Vertical_Baixo.Add(Ponto, force);//Adiciono na Lista de Forças
+                    Forca_Trelica.Add(force);//Adiciono na Lista de Forças
 
                     //as próximas 5 linhas transformam as coordenadasda picturebox, na escala correta
                     g.ResetTransform();
@@ -610,7 +654,7 @@ namespace Teste1
                     force.Sentido = "Cima";
                     force.No_aplicado = Ponto;
 
-                    Forca_Vertical_Cima.Add(Ponto, force);
+                    Forca_Trelica.Add( force);
 
 
                     g.ResetTransform();
@@ -637,17 +681,17 @@ namespace Teste1
                     force.Sentido = "Direita";
                     force.No_aplicado = Ponto;
 
-                    Forca_Horizontal_Direita.Add(Ponto, force);
-                    if (Re_apoio_3 == true)
-                    {
-                        Num_RE_apoios++;
-                        force.Sentido = "Esquerda";
-                        force.No_aplicado = VA;
-                        Forca_Horizontal_Esquerda.Add(VA, force);
+                    Forca_Trelica.Add(force);
+                    //if (Re_apoio_3 == true)
+                    //{
+                    //    Num_RE_apoios++;
+                    //    force.Sentido = "Esquerda";
+                    //    force.No_aplicado = VA;
+                    //    Forca_Horizontal_Esquerda.Add(VA, force);
 
 
-                        Re_apoio_3 = false;
-                    }
+                    //    Re_apoio_3 = false;
+                    //}
 
                     g.ResetTransform();
 
@@ -675,19 +719,19 @@ namespace Teste1
                     force.Sentido = "Esquerda";
                     force.No_aplicado = Ponto;
 
-                    Forca_Horizontal_Esquerda.Add(Ponto, force);
+                    Forca_Trelica.Add(force);
 
                     g.ResetTransform();
 
-                    if (Re_apoio_3 == true)
-                    {
-                        Num_RE_apoios++;
-                        force.Sentido = "Direita";
-                        force.No_aplicado = VA;
-                        Forca_Horizontal_Direita.Add(VA, force);
+                    //if (Re_apoio_3 == true)
+                    //{
+                    //    Num_RE_apoios++;
+                    //    force.Sentido = "Direita";
+                    //    force.No_aplicado = VA;
+                    //    Forca_Trelica.Add(force);
 
-                        Re_apoio_3 = false;
-                    }
+                    //    Re_apoio_3 = false;
+                    //}
 
 
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
