@@ -331,7 +331,7 @@ namespace Teste1
             // Assumir sinal das forças como os sinais dos eixos(Dierita e Cima + e Baixo e Esquerda -)
 
 
-            double[,] matriz = new double[Nos.Count * 2, Nos.Count * 2 -1];
+            double[,] matriz = new double[Nos.Count * 2, shapes.Count + 3];
             int linha = 0, coluna = 0;
 
             foreach (var no in Nos)// Preenchera a matriz
@@ -454,15 +454,15 @@ namespace Teste1
                 double[,] A_1 = PegaInformacaoTrelica(Nosverdade);
                 double[] B_1 = Pega_Trelica_resp(Nosverdade, Forca_Trelica);
 
-                double[,] A = { { -1, 0, 0, 1, 0, 0, 0, 0 }, { 0, -1, 0, 0, 1, 0, 0, 0 }, { 0, 0, -1, 0, 0, 0.3846, 1, 0 }, { 0, 0, 0, 0, -1, -0.9230, 0, 0 }, { 0, 0, 0, -1, 0, -0.3846, 0, 0 }, { 0, 0, 0, 0, 0, 0.9230, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0 - 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, -1 } };
-                double[] b = { 0, 0, 0, 0, -26, 15, -12, 0 };
-                double[] x = gaussSolver(A, b);
-                for (int i = 0; i < 8; i++)
-                {
+                //double[,] A = { { -1, 0, 0, 1, 0, 0, 0, 0 }, { 0, -1, 0, 0, 1, 0, 0, 0 }, { 0, 0, -1, 0, 0, 0.3846, 1, 0 }, { 0, 0, 0, 0, -1, -0.9230, 0, 0 }, { 0, 0, 0, -1, 0, -0.3846, 0, 0 }, { 0, 0, 0, 0, 0, 0.9230, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0 - 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, -1 } };
+                //double[] b = { 0, 0, 0, 0, -26, 15, -12, 0 };
+                double[] x = gaussSolver(A_1, B_1);
 
-                    Console.WriteLine(x[i]);
+                foreach (double item in x)
+                {
+                    txtRespostas.Text += item + Environment.NewLine;
                 }
-                Console.ReadKey();
+                
 
 
 
@@ -565,12 +565,7 @@ namespace Teste1
 
             if (Nosverdade.Count != 0)
             {
-
-
-                
-
-
-
+              
                 Tre_forca.Visible = true;
 
                 V_nos = 1;

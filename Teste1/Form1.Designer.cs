@@ -42,6 +42,8 @@
             this.Tre_forca = new System.Windows.Forms.GroupBox();
             this.btn_addForca = new System.Windows.Forms.Button();
             this.Erro = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtRespostas = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Tre_forca.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Erro)).BeginInit();
@@ -56,7 +58,6 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -64,7 +65,7 @@
             // 
             // btnLimpar
             // 
-            this.btnLimpar.Location = new System.Drawing.Point(24, 302);
+            this.btnLimpar.Location = new System.Drawing.Point(141, 218);
             this.btnLimpar.Name = "btnLimpar";
             this.btnLimpar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpar.TabIndex = 1;
@@ -84,7 +85,7 @@
             // 
             // Flecha
             // 
-            this.Flecha.Location = new System.Drawing.Point(24, 195);
+            this.Flecha.Location = new System.Drawing.Point(24, 211);
             this.Flecha.Name = "Flecha";
             this.Flecha.Size = new System.Drawing.Size(75, 37);
             this.Flecha.TabIndex = 3;
@@ -174,11 +175,30 @@
             this.Erro.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.Erro.ContainerControl = this;
             // 
+            // txtRespostas
+            // 
+            this.txtRespostas.Location = new System.Drawing.Point(24, 291);
+            this.txtRespostas.Multiline = true;
+            this.txtRespostas.Name = "txtRespostas";
+            this.txtRespostas.Size = new System.Drawing.Size(192, 162);
+            this.txtRespostas.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 265);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Respostas :";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(666, 348);
+            this.ClientSize = new System.Drawing.Size(666, 465);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtRespostas);
             this.Controls.Add(this.Tre_forca);
             this.Controls.Add(this.Flecha);
             this.Controls.Add(this.btnLimpar);
@@ -191,6 +211,7 @@
             this.Tre_forca.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Erro)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -209,6 +230,8 @@
         private System.Windows.Forms.GroupBox Tre_forca;
         private System.Windows.Forms.Button btn_addForca;
         private System.Windows.Forms.ErrorProvider Erro;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtRespostas;
     }
 }
 
