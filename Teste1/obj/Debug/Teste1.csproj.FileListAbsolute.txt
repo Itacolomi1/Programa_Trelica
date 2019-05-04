@@ -28,3 +28,4 @@ C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelic
 C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.csproj.CoreCompileInputs.cache
 C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.exe
 C:\Users\thiag\OneDrive\Documentos\Termomecänica\Algoritmos\EC4\Programa_Trelica\Teste1\obj\Debug\Teste1.pdb
+C:\Users\ITALO\Desktop\Programa_Trelica\Itacolomi1\Programa_Trelica\Teste1\obj\Debug\Teste1.FormAjuda.resources

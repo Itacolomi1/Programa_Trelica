@@ -135,9 +135,17 @@ namespace Teste1
 
             shapes.Clear();
             pictureBox1.Refresh();
+            pictureBox1.Refresh();
             Nosverdade.Clear();
+
             F_NO = true;
             Num_RE_apoios = 2;
+            Forca_Trelica.Clear();
+            Tre_forca.Visible = false;
+            Flecha.Enabled = true;
+            CB_Nos.DataSource = null;
+            txtRespostas.Text = null;
+
         }
 
 
@@ -254,7 +262,7 @@ namespace Teste1
 
         public static bool ValidaTrelica(int NumNos, int NumBarras, int NumRapoios)
         {
-            if ((NumNos * 2) == (NumBarras + NumRapoios) || (NumNos * 2) > (NumBarras + NumRapoios))
+            if ((NumNos * 2) == (NumBarras + NumRapoios))
             {
                 return true;
             }
@@ -266,18 +274,18 @@ namespace Teste1
 
         }
 
-        public double[] Pega_Trelica_resp (List<PointF> Nos, List<Forca> Forca)
+        public double[] Pega_Trelica_resp(List<PointF> Nos, List<Forca> Forca)
         {
             Nos = Nos.OrderBy(orde => orde.X).ToList();
             Forca = Forca.OrderBy(ordem => ordem.No_aplicado.X).ToList();
             double[] matriz = new double[Nos.Count() * 2];
-            int horizontal = 0, vertical=1;
+            int horizontal = 0, vertical = 1;
 
             foreach (var no in Nos)
             {
                 foreach (var forci in Forca)
                 {
-                    if(no==forci.No_aplicado)
+                    if (no == forci.No_aplicado)
                     {
 
                         switch (forci.Sentido)
@@ -301,14 +309,14 @@ namespace Teste1
 
                     }
                 }
-                horizontal+=2;
-                vertical+=2;
+                horizontal += 2;
+                vertical += 2;
             }
 
 
             return matriz;
 
-        
+
 
 
 
@@ -317,7 +325,7 @@ namespace Teste1
 
         public double[,] PegaInformacaoTrelica(List<PointF> Nos)
         {
-            double[,] Matriz = new double[(Nos.Count() * 2), shapes.Count + 3];
+
             Nos = Nos.OrderBy(orde => orde.X).ToList();
             Dictionary<PointF, Forca> Horizontal_Direita = new Dictionary<PointF, Forca>();
             Dictionary<PointF, Forca> Horizontal_Esquerda = new Dictionary<PointF, Forca>();
@@ -331,7 +339,7 @@ namespace Teste1
             // Assumir sinal das forças como os sinais dos eixos(Dierita e Cima + e Baixo e Esquerda -)
 
 
-            double[,] matriz = new double[Nos.Count * 2, shapes.Count + 3];
+            double[,] matriz = new double[Nos.Count * 2, Nos.Count * 2];
             int linha = 0, coluna = 0;
 
             foreach (var no in Nos)// Preenchera a matriz
@@ -421,7 +429,11 @@ namespace Teste1
 
         private void btn_Valida_Click(object sender, EventArgs e)
         {
-
+            if(Forca_Trelica.Count==0)
+            {
+                MessageBox.Show("Favor Adicione uma Força");
+                return;
+            }
             Forca force = new Forca();
             force.Sentido = "Cima";
             force.Valor = 0;
@@ -442,10 +454,10 @@ namespace Teste1
             CB_Nos.DataSource = Nosverdade;
             ////List<double> AngulosVerdade = Angulo(shapes);
 
-            if (ValidaTrelica(Tre.Nos, Tre.Barras, Num_RE_apoios) == true)
+            if (ValidaTrelica(Tre.Nos, Tre.Barras, 3) == true)
             {
                 MessageBox.Show("Treliça Válida");
-                
+
 
                 //Pega os Nós
                 //List<PointF> Nosverdadeiros = Nos.GroupBy(valor => new { valor.X, valor.Y }).Select(gcs => new PointF { X = gcs.Key.X, Y = gcs.Key.Y }).ToList();
@@ -458,11 +470,19 @@ namespace Teste1
                 //double[] b = { 0, 0, 0, 0, -26, 15, -12, 0 };
                 double[] x = gaussSolver(A_1, B_1);
 
-                foreach (double item in x)
+                if (x != null)
                 {
-                    txtRespostas.Text += item + Environment.NewLine;
+
+                    foreach (double item in x)
+                    {
+                        txtRespostas.Text += item + Environment.NewLine;
+                    }
                 }
-                
+                else
+                {
+                    MessageBox.Show("O programa retornou nullo nessa Matriz");
+                }
+
 
 
 
@@ -507,7 +527,7 @@ namespace Teste1
                     shp.pt1 = MouseDownPt;
                     shp.pt2 = MouseMovePt;
                     shp.color = Color.Black;
-                    double Angle = (Math.Atan2(shp.pt2.Y - shp.pt1.Y, shp.pt2.X - shp.pt1.X))* 180/Math.PI;
+                    double Angle = (Math.Atan2(shp.pt2.Y - shp.pt1.Y, shp.pt2.X - shp.pt1.X)) * 180 / Math.PI;
                     shp.Agulo = Angle * -1;
                     shapes.Add(contador, shp);
                     contador++;
@@ -525,13 +545,13 @@ namespace Teste1
             pictureBox1.Invalidate();
         }
 
-        int V_nos = 0;
+
         PointF Inicio;
         double Maior = 0;
 
         PointF VB;
 
-        
+
         private void Conta_Nos(object sender, EventArgs e)
         {
             List<PointF> Nos = new List<PointF>();
@@ -565,15 +585,17 @@ namespace Teste1
 
             if (Nosverdade.Count != 0)
             {
-              
+
                 Tre_forca.Visible = true;
 
-                V_nos = 1;
+
 
                 Inicio = Nosverdade[0];
 
 
                 CB_Nos.DataSource = Nosverdade;
+
+                Flecha.Enabled = false;
 
             }
 
@@ -582,19 +604,25 @@ namespace Teste1
                 MessageBox.Show("Nenhum nó foi identificado");
             }
 
-            //flecha.DrawLine(new Pen(Color.Red, flecha.VisibleClipBounds.Width / 100), forca.Inicio, GetScalePtFromClientPt( new PointF(forca.Inicio.X - 15, forca.Inicio.Y - 15)));
+
         }
 
 
         #region Evento_Adiciona_Pega_Forca
         List<Forca> Forca_Trelica = new List<Forca>();
-        
+
         bool Re_apoio_3 = true;
         private void btn_addForca_Click(object sender, EventArgs e)
         {
             try
             {
                 Erro.Clear();
+                if (double.TryParse(txtForca.Text, out double forca) == false)
+                {
+                    Erro.SetError(txtForca, "Digite apenas números neste campo");
+                    return;
+
+                }
                 if (string.IsNullOrEmpty(txtForca.Text))
                 {
                     Erro.SetError(txtForca, "Digite Algum valor nesta Força");
@@ -649,7 +677,7 @@ namespace Teste1
                     force.Sentido = "Cima";
                     force.No_aplicado = Ponto;
 
-                    Forca_Trelica.Add( force);
+                    Forca_Trelica.Add(force);
 
 
                     g.ResetTransform();
@@ -781,12 +809,14 @@ namespace Teste1
                     break;
             }
 
-            switch (V_nos)
-            {
-                case 1:
-                    Graficos.DrawLine(new Pen(Color.Red, Graficos.VisibleClipBounds.Width / 100), Inicio, new PointF(Inicio.X, Inicio.Y + 10));
-                    break;
-            }
+
+        }
+
+        private void Duvida_Click(object sender, EventArgs e)
+        {
+            FormAjuda Ajuda = new FormAjuda();
+
+            Ajuda.Show();
         }
         #region MetodoCalculaTrelica_PegaInformação
         public static double[] gaussSolver(double[,] A, double[] b)

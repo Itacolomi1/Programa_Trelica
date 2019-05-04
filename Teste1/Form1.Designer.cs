@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLimpar = new System.Windows.Forms.Button();
             this.btn_Valida = new System.Windows.Forms.Button();
@@ -40,13 +41,17 @@
             this.cb_sentido = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.Tre_forca = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.btn_addForca = new System.Windows.Forms.Button();
             this.Erro = new System.Windows.Forms.ErrorProvider(this.components);
             this.txtRespostas = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.Duvida = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Tre_forca.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Erro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Duvida)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -75,7 +80,7 @@
             // 
             // btn_Valida
             // 
-            this.btn_Valida.Location = new System.Drawing.Point(117, 143);
+            this.btn_Valida.Location = new System.Drawing.Point(140, 143);
             this.btn_Valida.Name = "btn_Valida";
             this.btn_Valida.Size = new System.Drawing.Size(75, 23);
             this.btn_Valida.TabIndex = 2;
@@ -129,7 +134,7 @@
             // cb_sentido
             // 
             this.cb_sentido.FormattingEnabled = true;
-            this.cb_sentido.Location = new System.Drawing.Point(109, 117);
+            this.cb_sentido.Location = new System.Drawing.Point(128, 117);
             this.cb_sentido.Name = "cb_sentido";
             this.cb_sentido.Size = new System.Drawing.Size(101, 21);
             this.cb_sentido.TabIndex = 8;
@@ -137,7 +142,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(114, 91);
+            this.label3.Location = new System.Drawing.Point(129, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 9;
@@ -145,6 +150,7 @@
             // 
             // Tre_forca
             // 
+            this.Tre_forca.Controls.Add(this.label5);
             this.Tre_forca.Controls.Add(this.btn_addForca);
             this.Tre_forca.Controls.Add(this.CB_Nos);
             this.Tre_forca.Controls.Add(this.btn_Valida);
@@ -159,6 +165,15 @@
             this.Tre_forca.TabIndex = 10;
             this.Tre_forca.TabStop = false;
             this.Tre_forca.Text = "Forças";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(91, 122);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(15, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "N";
             // 
             // btn_addForca
             // 
@@ -180,7 +195,7 @@
             this.txtRespostas.Location = new System.Drawing.Point(24, 291);
             this.txtRespostas.Multiline = true;
             this.txtRespostas.Name = "txtRespostas";
-            this.txtRespostas.Size = new System.Drawing.Size(192, 162);
+            this.txtRespostas.Size = new System.Drawing.Size(192, 175);
             this.txtRespostas.TabIndex = 11;
             // 
             // label4
@@ -192,11 +207,33 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Respostas :";
             // 
+            // Duvida
+            // 
+            this.Duvida.Image = ((System.Drawing.Image)(resources.GetObject("Duvida.Image")));
+            this.Duvida.Location = new System.Drawing.Point(517, 403);
+            this.Duvida.Name = "Duvida";
+            this.Duvida.Size = new System.Drawing.Size(100, 50);
+            this.Duvida.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Duvida.TabIndex = 12;
+            this.Duvida.TabStop = false;
+            this.Duvida.Click += new System.EventHandler(this.Duvida_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(551, 456);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Ajuda";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(666, 465);
+            this.ClientSize = new System.Drawing.Size(666, 478);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.Duvida);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtRespostas);
             this.Controls.Add(this.Tre_forca);
@@ -210,6 +247,7 @@
             this.Tre_forca.ResumeLayout(false);
             this.Tre_forca.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Erro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Duvida)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,6 +270,9 @@
         private System.Windows.Forms.ErrorProvider Erro;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtRespostas;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox Duvida;
     }
 }
 
