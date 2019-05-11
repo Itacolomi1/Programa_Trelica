@@ -135,7 +135,7 @@ namespace Teste1
 
             shapes.Clear();
             pictureBox1.Refresh();
-            pictureBox1.Refresh();
+            
             Nosverdade.Clear();
 
             F_NO = true;
@@ -145,6 +145,7 @@ namespace Teste1
             Flecha.Enabled = true;
             CB_Nos.DataSource = null;
             txtRespostas.Text = null;
+            
 
         }
 
@@ -855,10 +856,10 @@ namespace Teste1
                 }
                 //Se A[k][k] é zero, então a matriz dos coeficiente é singular
                 //det A = 0
-                if (A[k, k] == 0)
-                {
-                    return null;
-                }
+                //if (A[k, k] == 0)
+                //{
+                //    return null;
+                //}
                 else
                 {
                     //realiza o escalonamento
